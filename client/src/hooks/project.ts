@@ -1,3 +1,4 @@
+import { AuthenticationTokenKey } from '@/utils/constants';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -46,7 +47,7 @@ const updateProject = ({ id, title, description }: UpdateProjectPayloadType) => 
     },
     {
       headers: {
-        token: localStorage.getItem('token')
+        token: localStorage.getItem(AuthenticationTokenKey)
       }
     }
   );

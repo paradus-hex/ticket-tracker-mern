@@ -1,3 +1,4 @@
+import { AuthenticationTokenKey } from '@/utils/constants';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -22,7 +23,7 @@ export default function useCurrentUser() {
   let token: string | null = null;
   let userId: string | null = null;
   if (typeof window !== 'undefined') {
-    token = localStorage.getItem('ticket-tracker-token');
+    token = localStorage.getItem(AuthenticationTokenKey);
     userId = extractUserIdFromJwt(token);
   }
 

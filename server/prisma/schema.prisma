@@ -25,7 +25,7 @@ model User {
   email          String         @unique
   hashedPassword String
   role           Role           @default(USER)
-  AssignedUser   AssignedUser[]
+  assigned       AssignedUser[]
 }
 
 model Project {

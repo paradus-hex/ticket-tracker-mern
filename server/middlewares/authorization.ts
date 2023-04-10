@@ -10,9 +10,10 @@ interface UserRequest extends Request {
 export default async (req: UserRequest, res: Response, next: NextFunction) => {
   try {
     const jwtToken = req.header('token');
+    console.log(jwtToken)
 
     if (!jwtToken) {
-      return res.status(403).json('Not Authorized');
+      return res.status(403).json('No jwt token provide');
     }
 
     const payload = jwt.verify(jwtToken, process.env.JWT_SECRET as Secret) as JwtPayload;;
@@ -22,7 +23,6 @@ export default async (req: UserRequest, res: Response, next: NextFunction) => {
     next();
   } catch (err) {
     console.log(err);
-    // console.error(err.message);
     return res.status(403).json('Not Authorized');
   }
 };

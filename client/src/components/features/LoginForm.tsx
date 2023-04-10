@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useLoginUser } from '../../hooks/user';
+import { AuthenticationTokenKey, AuthorizationKey } from '@/utils/constants';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -21,8 +22,8 @@ export default function LoginForm() {
   const onSuccess = (successData: any) => {
     console.log(successData.data);
     setIsError(false);
-    localStorage.setItem('ticket-tracker-token', successData.data.token);
-    localStorage.setItem('ticket-tracker-role', successData.data.role);
+    localStorage.setItem(AuthenticationTokenKey, successData.data.token);
+    localStorage.setItem(AuthorizationKey, successData.data.role);
     router.push('/dashboard');
   };
 

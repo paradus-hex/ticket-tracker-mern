@@ -18,8 +18,9 @@ dotenv_1.default.config();
 exports.default = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const jwtToken = req.header('token');
+        console.log(jwtToken);
         if (!jwtToken) {
-            return res.status(403).json('Not Authorized');
+            return res.status(403).json('No jwt token provide');
         }
         const payload = jsonwebtoken_1.default.verify(jwtToken, process.env.JWT_SECRET);
         ;
@@ -28,7 +29,6 @@ exports.default = (req, res, next) => __awaiter(void 0, void 0, void 0, function
     }
     catch (err) {
         console.log(err);
-        // console.error(err.message);
         return res.status(403).json('Not Authorized');
     }
 });
