@@ -13,32 +13,26 @@ import {
   type GridRowId,
   type GridRowModel
 } from '@mui/x-data-grid';
+import useCurrentUser from '@/hooks/useCurrentUser';
 import { useRouter } from 'next/router';
-import {
-  useGetAllProjects,
-  useUpdateProject,
-  useDeleteProject,
-  UpdateProjectPayloadType
-} from '@/hooks/project';
+import { useDeleteUser, useGetAllUsers, useRoleUpdateUser } from '@/hooks/user';
+import { UpdateRoleUserPayloadType } from '@/hooks/user';
 
-export default function ProjectsTable() {
-  const { data: projectsData, isSuccess } = useGetAllProjects();
-
+export default function UsersTable() {
+  const { data: usersData, isSuccess } = useGetAllUsers();
+  const { mutateAsync } = useRoleUpdateUser();
+  const { mutateAsync: deleteUser } = useDeleteUser();
   const router = useRouter();
+  const { data: userSession } = useCurrentUser();
 
-  const { mutateAsync: deleteProject } = useDeleteProject();
-
-  const { mutateAsync: updateProject } = useUpdateProject();
-
-  const [rows, setRows] = React.useState(projectsData?.data.projects ?? []);
+  const [rows, setRows] = React.useState(usersData?.data.users ?? []);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
 
   React.useEffect(() => {
-    if (isSuccess) setRows(projectsData?.data.projects);
-    console.log();
-  }, [isSuccess, projectsData?.data.projects, rows]);
+    if (isSuccess) setRows(usersData.data.users);
+  }, [isSuccess, usersData?.data.users]);
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
@@ -48,9 +42,9 @@ export default function ProjectsTable() {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id: string) => () => {
-    deleteProject(id);
-    setRows(rows.filter((row: any) => row.id !== id));
+  const handleDeleteClick = (id: GridRowId) => () => {
+    deleteUser(id as string);
+    setRows(rows.filter((row: GridRowModel) => row.id !== id));
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -60,36 +54,34 @@ export default function ProjectsTable() {
     });
   };
 
+  const processRowUpdate = (newRow: GridRowModel) => {
+    const updatedRow = { ...newRow } as Partial<UpdateRoleUserPayloadType>;
+    const { id, role } = updatedRow;
+
+    // Ensure both id and role are defined before calling mutateAsync
+    if (id !== undefined && role !== undefined) {
+      void mutateAsync({ id, role });
+    }
+
+    return updatedRow;
+  };
+
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow } as UpdateProjectPayloadType;
-
-    void updateProject({
-      id: updatedRow.id,
-      title: updatedRow.title,
-      description: updatedRow.description
-    } as UpdateProjectPayloadType);
-    return updatedRow;
-  };
-
-  const columns: GridColDef[] = [
+  const adminColumns: GridColDef[] = [
+    { field: 'name', headerName: 'Name', flex: 2 },
+    { field: 'email', headerName: 'Email', flex: 2 },
     {
-      field: 'title',
-      headerName: 'Title',
-      width: 180,
-      editable: true,
-      flex: 1
+      field: 'role',
+      headerName: 'Role',
+      type: 'singleSelect',
+      valueOptions: ['ADMIN', 'USER'],
+      flex: 1,
+      editable: true
     },
-    {
-      field: 'description',
-      headerName: 'Description',
-      width: 360,
-      editable: true,
-      flex: 2
-    },
+
     {
       field: 'actions',
       type: 'actions',
@@ -131,11 +123,24 @@ export default function ProjectsTable() {
             key={id}
             icon={<DeleteIcon />}
             label='Delete'
-            onClick={handleDeleteClick(id as string)}
+            onClick={handleDeleteClick(id)}
             color='inherit'
           />
         ];
       }
+    }
+  ];
+
+  const userColumns: GridColDef[] = [
+    { field: 'name', headerName: 'Name', flex: 2 },
+    { field: 'email', headerName: 'Email', flex: 2 },
+    {
+      field: 'role',
+      headerName: 'Role',
+      type: 'singleSelect',
+      valueOptions: ['ADMIN', 'USER'],
+      flex: 1,
+      editable: true
     }
   ];
 
@@ -153,17 +158,27 @@ export default function ProjectsTable() {
           }
         }}
       >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          editMode='row'
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          processRowUpdate={processRowUpdate}
-          onRowClick={(params) => {
-            void router.push(`projects/${params.id}`);
-          }}
-        />
+        {userSession && userSession.user.role === 'ADMIN' ? (
+          <DataGrid
+            rows={rows}
+            columns={adminColumns}
+            editMode='row'
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            processRowUpdate={processRowUpdate}
+            onRowClick={(params) => {
+              void router.push(`/users/${params.id}`);
+            }}
+          />
+        ) : (
+          <DataGrid
+            rows={rows}
+            columns={userColumns}
+            onRowClick={(params) => {
+              void router.push(`/users/${params.id}`);
+            }}
+          />
+        )}
       </Box>
     </Box>
   );
