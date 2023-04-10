@@ -1,66 +1,66 @@
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
-import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-import { Divider, Tooltip } from "@mui/material";
-import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import { type CSSObject, type Theme, styled } from "@mui/material/styles";
-import ScrollableStack from "./ScrollableStack";
-import Link from "next/link";
-import { type ReactNode, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
+import { Divider, Tooltip } from '@mui/material';
+import Box from '@mui/material/Box';
+import MuiDrawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { type CSSObject, type Theme, styled } from '@mui/material/styles';
+import ScrollableStack from './ScrollableStack';
+import Link from 'next/link';
+import { type ReactNode, useState } from 'react';
+import { useRouter } from 'next/router';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 const drawerWidth = 250;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create("width", {
+  transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.enteringScreen
   }),
-  overflowX: "hidden",
+  overflowX: 'hidden'
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create("width", {
+  transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
-  overflowX: "hidden",
+  overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`
+  }
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: prop => prop !== "open",
+  shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme, open }) => ({
   flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
   ...(open && {
     ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+    '& .MuiDrawer-paper': openedMixin(theme)
   }),
   ...(!open && {
     ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
+    '& .MuiDrawer-paper': closedMixin(theme)
+  })
 }));
 
 // function SidebarItem({
@@ -97,7 +97,7 @@ function SidebarItem({
   href,
   label,
   icon,
-  isActive,
+  isActive
 }: {
   href: string;
   label?: string;
@@ -110,7 +110,7 @@ function SidebarItem({
         sx={{
           minHeight: 48,
           px: 2.5,
-          backgroundColor: isActive ? "#414141" : "transparent",
+          backgroundColor: isActive ? '#414141' : 'transparent'
         }}
       >
         <Box mr={2}>{icon}</Box>
@@ -118,7 +118,7 @@ function SidebarItem({
           <ListItemText
             primary={<Typography fontWeight={600}>{label}</Typography>}
             disableTypography
-            color="secondary"
+            color='secondary'
           />
         )}
       </ListItemButton>
@@ -130,20 +130,20 @@ export default function SideBar() {
   const [showSidebar, setShowSidebar] = useState(false);
   const router = useRouter();
 
-  const { data: sessionData } = useSession();
+  const { data: currentUser } = useCurrentUser();
 
   function closeSidebar() {
     setShowSidebar(false);
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Drawer variant="permanent" open={showSidebar}>
+    <Box sx={{ display: 'flex' }}>
+      <Drawer variant='permanent' open={showSidebar}>
         <ScrollableStack>
           <List>
             <Stack
-              direction={!showSidebar ? "column" : "row-reverse"}
-              alignItems="center"
+              direction={!showSidebar ? 'column' : 'row-reverse'}
+              alignItems='center'
             >
               <IconButton
                 onClick={() => {
@@ -153,93 +153,93 @@ export default function SideBar() {
                 {!showSidebar ? (
                   <MenuIcon
                     sx={{
-                      my: 1,
+                      my: 1
                     }}
                   />
                 ) : (
                   <ChevronLeftIcon />
                 )}
               </IconButton>
-              {!showSidebar && <Divider sx={{ width: "100%", mb: 2 }} />}
+              {!showSidebar && <Divider sx={{ width: '100%', mb: 2 }} />}
             </Stack>
             {showSidebar && (
               <Stack
                 sx={{
-                  alignItems: "center",
+                  alignItems: 'center'
                 }}
               >
-                {sessionData && (
+                {currentUser && (
                   <Typography
-                    color="primary"
-                    fontWeight="bold"
-                    variant="h6"
-                    display="block"
+                    color='primary'
+                    fontWeight='bold'
+                    variant='h6'
+                    display='block'
                   >
-                    {sessionData.user?.name}
+                    {currentUser.user?.name}
                   </Typography>
                 )}
-                {sessionData && (
+                {currentUser && (
                   <Typography
-                    color="secondary"
-                    display="block"
+                    color='secondary'
+                    display='block'
                     fontWeight={500}
-                    variant="subtitle1"
+                    variant='subtitle1'
                   >
-                    {sessionData.user?.name}
+                    {currentUser.user?.name}
                   </Typography>
                 )}
               </Stack>
             )}
           </List>
           <Stack my={1}>
-            <Tooltip title="Dashboard" placement="right">
+            <Tooltip title='Dashboard' placement='right'>
               <ListItem disablePadding onClick={closeSidebar}>
                 <SidebarItem
-                  href="/dashboard"
-                  label={showSidebar ? "Dashboard" : undefined}
-                  icon={<AssessmentOutlinedIcon color="primary" />}
-                  isActive={router.pathname === "/dashboard"}
+                  href='/dashboard'
+                  label={showSidebar ? 'Dashboard' : undefined}
+                  icon={<AssessmentOutlinedIcon color='primary' />}
+                  isActive={router.pathname === '/dashboard'}
                 />
               </ListItem>
             </Tooltip>
-            <Tooltip title="Create Project" placement="right">
+            <Tooltip title='Create Project' placement='right'>
               <ListItem disablePadding onClick={closeSidebar}>
                 <SidebarItem
-                  href="/create-project"
-                  label={showSidebar ? "Create Project" : undefined}
-                  icon={<AddOutlinedIcon color="primary" />}
-                  isActive={router.pathname === "/create-project"}
-                />
-              </ListItem>
-            </Tooltip>
-
-            <Tooltip title="Projects" placement="right">
-              <ListItem disablePadding onClick={closeSidebar}>
-                <SidebarItem
-                  href="/projects"
-                  label={showSidebar ? "Projects" : undefined}
-                  icon={<QuizOutlinedIcon color="primary" />}
-                  isActive={router.pathname === "/projects"}
+                  href='/create-project'
+                  label={showSidebar ? 'Create Project' : undefined}
+                  icon={<AddOutlinedIcon color='primary' />}
+                  isActive={router.pathname === '/create-project'}
                 />
               </ListItem>
             </Tooltip>
 
-            <Tooltip title="Users" placement="right">
+            <Tooltip title='Projects' placement='right'>
               <ListItem disablePadding onClick={closeSidebar}>
                 <SidebarItem
-                  href="/users"
-                  label={showSidebar ? "Users" : undefined}
-                  icon={<GroupOutlinedIcon color="primary" />}
-                  isActive={router.pathname === "/users"}
+                  href='/projects'
+                  label={showSidebar ? 'Projects' : undefined}
+                  icon={<QuizOutlinedIcon color='primary' />}
+                  isActive={router.pathname === '/projects'}
                 />
               </ListItem>
             </Tooltip>
-            <Tooltip title="Account Setting" placement="right">
+
+            <Tooltip title='Users' placement='right'>
               <ListItem disablePadding onClick={closeSidebar}>
                 <SidebarItem
-                  href="/settings?tab=account"
-                  label={showSidebar ? "Account" : undefined}
-                  icon={<SettingsOutlinedIcon color="primary" />}
+                  href='/users'
+                  label={showSidebar ? 'Users' : undefined}
+                  icon={<GroupOutlinedIcon color='primary' />}
+                  isActive={router.pathname === '/users'}
+                />
+              </ListItem>
+            </Tooltip>
+            <Tooltip title='Account Setting' placement='right'>
+              <ListItem disablePadding onClick={closeSidebar}>
+                <SidebarItem
+                  href='/settings?tab=account'
+                  label={showSidebar ? 'Account' : undefined}
+                  icon={<SettingsOutlinedIcon color='primary' />}
                 />
               </ListItem>
             </Tooltip>

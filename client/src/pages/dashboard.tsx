@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
-
 import useCurrentUser from '@/hooks/useCurrentUser';
+import ProtectedLayout from '@/components/common/ProtectedLayout';
 const Dashboard = () => {
-  const { data } = useCurrentUser();
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      console.log(data.user);
-    }
-  }, [data]);
-
-  return <div>Dashboard</div>;
+  return (
+    <ProtectedLayout>
+      {' '}
+      <div>Dashboard</div>
+    </ProtectedLayout>
+  );
 };
 
 export default Dashboard;
