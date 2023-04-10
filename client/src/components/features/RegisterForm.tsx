@@ -1,51 +1,37 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useLoginUser } from '../hooks/user';
+import { useRegisterUser } from '../../hooks/user';
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const router = useRouter();
-  const [isError, setIsError] = React.useState(false);
-  const [msgError, setMsgError] = React.useState(null);
-
   const onSuccess = (successData: any) => {
     console.log(successData.data);
-    setIsError(false);
-    localStorage.setItem('token', successData.data.token);
-    localStorage.setItem('auth', successData.data.auth);
-    router.push('/dashboard');
+    router.push('/');
   };
-
-  const onError = (error: any) => {
-    console.log(error.response.data);
-    setIsError(true);
-    setMsgError(error.response.data);
-  };
-  const { mutate: loginUser } = useLoginUser(onSuccess, onError);
+  const { mutate: newUser } = useRegisterUser(onSuccess);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const loginUserPayload = {
+    const registerPayload = {
+      name: data.get('name') as string,
       email: data.get('email') as string,
       password: data.get('password') as string
     };
-    loginUser(loginUserPayload);
+    newUser({ ...registerPayload });
   };
 
   return (
     <Container component='main' maxWidth='xs'>
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -58,50 +44,53 @@ export default function LoginForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Sign up
         </Typography>
-        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                error={isError}
-                margin='normal'
+                focused
+                required
+                fullWidth
+                id='name'
+                label='Name'
+                name='name'
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
                 required
                 fullWidth
                 id='email'
                 label='Email Address'
                 name='email'
                 autoComplete='email'
-                autoFocus
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                error={isError}
-                margin='normal'
                 required
                 fullWidth
                 name='password'
                 label='Password'
                 type='password'
                 id='password'
-                autoComplete='current-password'
+                autoComplete='new-password'
               />
             </Grid>
           </Grid>
           <Button
-            disabled={isError}
             type='submit'
             fullWidth
             variant='contained'
-            className='bg-[#CE93D8]'
-            sx={{ mt: 3, mb: 2 }}
+            className='mt-3 mb-2 bg-[#CE93D8]'
           >
-            Sign In
+            Sign Up
           </Button>
-          <Grid container justifyContent='center'>
+          <Grid container justifyContent='flex-end'>
             <Grid item>
-              <Link href='/register'>
+              <Link href='/'>
                 <Typography
                   variant='subtitle2'
                   sx={{
@@ -111,21 +100,12 @@ export default function LoginForm() {
                     }
                   }}
                 >
-                  Dont have an account? Sign Up
+                  Already have an account? Sign in
                 </Typography>
               </Link>
             </Grid>
           </Grid>
         </Box>
-        {isError && msgError && (
-          <Alert severity='error' sx={{ marginTop: 5 }} variant='filled'>
-            {msgError}
-          </Alert>
-        )}
-        {/* <SuccessSnackbar
-          successMessage='User logged In!'
-          showSnackbar={showSnackbar}
-        /> */}
       </Box>
     </Container>
   );

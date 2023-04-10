@@ -43,7 +43,7 @@ const userController = {
             const token = (0, jwtGenerator_js_1.default)(user.id);
             res.json({
                 token,
-                auth: user.role
+                role: user.role
             });
         }
         catch (err) {

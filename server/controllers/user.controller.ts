@@ -39,7 +39,7 @@ const userController = {
 
       res.json({
         token,
-        auth: user.role
+        role: user.role
       });
     } catch (err: any) {
       console.error(err.message);

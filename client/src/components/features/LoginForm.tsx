@@ -1,37 +1,51 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useRegisterUser } from '../hooks/user';
+import { useLoginUser } from '../../hooks/user';
 
-export default function RegisterForm() {
+export default function LoginForm() {
   const router = useRouter();
+  const [isError, setIsError] = React.useState(false);
+  const [msgError, setMsgError] = React.useState(null);
+
   const onSuccess = (successData: any) => {
     console.log(successData.data);
-    router.push('/');
+    setIsError(false);
+    localStorage.setItem('ticket-tracker-token', successData.data.token);
+    localStorage.setItem('ticket-tracker-role', successData.data.role);
+    router.push('/dashboard');
   };
-  const { mutate: newUser } = useRegisterUser(onSuccess);
+
+  const onError = (error: any) => {
+    console.log(error.response.data);
+    setIsError(true);
+    setMsgError(error.response.data);
+  };
+  const { mutate: loginUser } = useLoginUser(onSuccess, onError);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const registerPayload = {
-      name: data.get('name') as string,
+    const loginUserPayload = {
       email: data.get('email') as string,
       password: data.get('password') as string
     };
-    newUser({ ...registerPayload });
+    loginUser(loginUserPayload);
   };
 
   return (
     <Container component='main' maxWidth='xs'>
+      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -44,53 +58,50 @@ export default function RegisterForm() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign up
+          Sign in
         </Typography>
-        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                focused
-                required
-                fullWidth
-                id='name'
-                label='Name'
-                name='name'
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
+                error={isError}
+                margin='normal'
                 required
                 fullWidth
                 id='email'
                 label='Email Address'
                 name='email'
                 autoComplete='email'
+                autoFocus
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={isError}
+                margin='normal'
                 required
                 fullWidth
                 name='password'
                 label='Password'
                 type='password'
                 id='password'
-                autoComplete='new-password'
+                autoComplete='current-password'
               />
             </Grid>
           </Grid>
           <Button
+            disabled={isError}
             type='submit'
             fullWidth
             variant='contained'
-            className='mt-3 mb-2 bg-[#CE93D8]'
+            className='bg-[#CE93D8]'
+            sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Sign In
           </Button>
-          <Grid container justifyContent='flex-end'>
+          <Grid container justifyContent='center'>
             <Grid item>
-              <Link href='/'>
+              <Link href='/register'>
                 <Typography
                   variant='subtitle2'
                   sx={{
@@ -100,12 +111,21 @@ export default function RegisterForm() {
                     }
                   }}
                 >
-                  Already have an account? Sign in
+                  Dont have an account? Sign Up
                 </Typography>
               </Link>
             </Grid>
           </Grid>
         </Box>
+        {isError && msgError && (
+          <Alert severity='error' sx={{ marginTop: 5 }} variant='filled'>
+            {msgError}
+          </Alert>
+        )}
+        {/* <SuccessSnackbar
+          successMessage='User logged In!'
+          showSnackbar={showSnackbar}
+        /> */}
       </Box>
     </Container>
   );
