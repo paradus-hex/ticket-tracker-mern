@@ -11,38 +11,37 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-// import useLoginUser from '../../../api/users/useLoginUser';
-// import SuccessSnackbar from '../../common/successSnackbar';
+import { useLoginUser } from '../hooks/user';
 
 export default function LoginForm() {
   const router = useRouter();
   const [isError, setIsError] = React.useState(false);
   const [msgError, setMsgError] = React.useState(null);
-  const [showSnackbar, setShowSnackbar] = React.useState(false);
 
-  // const onSuccess = (successData) => {
-  //   // console.log(successData.data);
-  //   setIsError(false);
-  //   setShowSnackbar(true);
-  //   localStorage.setItem('token', successData.data.token);
-  //   localStorage.setItem('auth', successData.data.auth);
-  //   router.push('/dashboard');
-  // };
-  // const onError = (error) => {
-  //   console.log(error.response.data);
-  //   setIsError(true);
-  //   setMsgError(error.response.data);
-  // };
-  // const { mutate: loginUser } = useLoginUser(onSuccess, onError);
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   const loginUserPayload = {
-  //     email: data.get('email'),
-  //     password: data.get('password')
-  //   };
-  //   loginUser(loginUserPayload);
-  // };
+  const onSuccess = (successData: any) => {
+    console.log(successData.data);
+    setIsError(false);
+    localStorage.setItem('token', successData.data.token);
+    localStorage.setItem('auth', successData.data.auth);
+    router.push('/dashboard');
+  };
+
+  const onError = (error: any) => {
+    console.log(error.response.data);
+    setIsError(true);
+    setMsgError(error.response.data);
+  };
+  const { mutate: loginUser } = useLoginUser(onSuccess, onError);
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const loginUserPayload = {
+      email: data.get('email') as string,
+      password: data.get('password') as string
+    };
+    loginUser(loginUserPayload);
+  };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -61,7 +60,7 @@ export default function LoginForm() {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <Box component='form' onSubmit={() => {}} noValidate sx={{ mt: 1 }}>
+        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

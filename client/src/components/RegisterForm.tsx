@@ -9,26 +9,26 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-// import useRegisterUser from '../../../api/users/useRegisterUser';
+import { useRegisterUser } from '../hooks/user';
 
 export default function RegisterForm() {
   const router = useRouter();
-  // const onSuccess = (successData) => {
-  //   // console.log(successData.data);
-  //   router.push('/login');
-  // };
-  // const { mutate: newUser } = useRegisterUser(onSuccess);
+  const onSuccess = (successData: any) => {
+    console.log(successData.data);
+    router.push('/');
+  };
+  const { mutate: newUser } = useRegisterUser(onSuccess);
 
-  // const handleSubmit = (event: any) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   const registerPayload = {
-  //     name: data.get('name'),
-  //     email: data.get('email'),
-  //     password: data.get('password')
-  //   };
-  //   newUser({ ...registerPayload, user_authority: 'developer' });
-  // };
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const registerPayload = {
+      name: data.get('name') as string,
+      email: data.get('email') as string,
+      password: data.get('password') as string
+    };
+    newUser({ ...registerPayload });
+  };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -46,7 +46,7 @@ export default function RegisterForm() {
         <Typography component='h1' variant='h5'>
           Sign up
         </Typography>
-        <Box component='form' noValidate onSubmit={() => {}} sx={{ mt: 3 }}>
+        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
