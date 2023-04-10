@@ -13,10 +13,47 @@ enum Role {
   USER
 }
 
+enum Status {
+  INPROGRESS
+  RESOLVED
+  UNASSIGNED
+}
+
 model User {
-  id             String @id @default(uuid())
+  id             String         @id @default(uuid())
   name           String
-  email          String @unique
+  email          String         @unique
   hashedPassword String
-  role           Role   @default(USER)
+  role           Role           @default(USER)
+  AssignedUser   AssignedUser[]
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  tickets     Ticket[]
+}
+
+model Ticket {
+  id           String         @id @default(cuid())
+  title        String
+  description  String
+  project      Project        @relation(fields: [projectId], references: [id])
+  projectId    String
+  status       Status         @default(UNASSIGNED)
+  AssignedUser AssignedUser[]
+
+  @@index([projectId])
+}
+
+model AssignedUser {
+  id       String @id @default(cuid())
+  userId   String
+  ticketId String
+  user     User   @relation(fields: [userId], references: [id])
+  ticket   Ticket @relation(fields: [ticketId], references: [id])
+
+  @@unique([userId, ticketId])
+  @@index([ticketId])
 }

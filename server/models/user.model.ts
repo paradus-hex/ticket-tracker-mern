@@ -1,15 +1,14 @@
 import { prisma } from "../server";
 
 
-export type User = { id: string, name: string, email: string, hashedPassword: string, role: 'ADMIN' | 'USER' }
 
 const UserModel = {
   async createUser(name: string, email: string, hashedPassword: string) {
     return await prisma.user.create({
       data: {
-        name: name,
-        email: email,
-        hashedPassword: hashedPassword,
+        name,
+        email,
+        hashedPassword,
       },
     });
   },
