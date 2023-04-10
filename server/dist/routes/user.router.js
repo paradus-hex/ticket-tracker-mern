@@ -7,6 +7,7 @@ const express_1 = require("express");
 const authorization_js_1 = __importDefault(require("../middlewares/authorization.js"));
 const user_controller_js_1 = __importDefault(require("../controllers/user.controller.js"));
 const router = (0, express_1.Router)();
+router.post('/login', user_controller_js_1.default.loginUser);
 // Matches route with "/api/v1/user/"
 router.route('/').get(user_controller_js_1.default.getAll).post(user_controller_js_1.default.addUser);
 // Matches route with "/api/v1/user/:id"

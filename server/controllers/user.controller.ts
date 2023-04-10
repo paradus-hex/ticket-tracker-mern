@@ -16,6 +16,35 @@ const userController = {
       res.status(500).json({ msg: 'Unable to get users from database' });
     }
   },
+
+  loginUser: async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+
+      //2. check if user doesn't exist (throw error if not)
+      const user = await UserModel.findByEmail(email);
+
+      if (!user) {
+        return res.status(401).send('Email or password is incorrect');
+      }
+
+      //3. check if incoming password is correct
+      const validPassword = await bcrypt.compare(password, user.hashedPassword);
+      if (!validPassword) {
+        return res.status(401).send('Email or password is incorrect');
+      }
+
+      //4. give jwt token
+      const token = jwtGenerator(user.id);
+
+      res.json({
+        token,
+        auth: user.role
+      });
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  },
   addUser: async (req: Request, res: Response) => {
     let { name, email, password } = req.body;
 
