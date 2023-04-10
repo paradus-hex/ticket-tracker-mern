@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import userRoutes from './user.router'
+import projectRoutes from './project.router'
 
 const RootRouter = Router();
 
@@ -7,7 +8,7 @@ const RootRouter = Router();
 // router.use('/api/v1/tickets', ticketRouter);
 // router.use('/api/v1/users', userRouter);
 
-// RootRouter.use('/projects', projectRoutes);
+RootRouter.use('/project', projectRoutes);
 RootRouter.use('/user', userRoutes);
 // RootRouter.use('/projectassignments', projectAssignmentsRoutes);
 // RootRouter.use('/tickets', ticketRoutes);

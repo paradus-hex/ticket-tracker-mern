@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const user_router_1 = __importDefault(require("./user.router"));
+const project_router_1 = __importDefault(require("./project.router"));
 const RootRouter = (0, express_1.Router)();
 // 3) ROUTES
 // router.use('/api/v1/tickets', ticketRouter);
 // router.use('/api/v1/users', userRouter);
-// RootRouter.use('/projects', projectRoutes);
+RootRouter.use('/project', project_router_1.default);
 RootRouter.use('/user', user_router_1.default);
 // RootRouter.use('/projectassignments', projectAssignmentsRoutes);
 // RootRouter.use('/tickets', ticketRoutes);

@@ -15,9 +15,9 @@ const UserModel = {
         return __awaiter(this, void 0, void 0, function* () {
             return yield server_1.prisma.user.create({
                 data: {
-                    name: name,
-                    email: email,
-                    hashedPassword: hashedPassword,
+                    name,
+                    email,
+                    hashedPassword,
                 },
             });
         });
