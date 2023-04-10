@@ -6,7 +6,7 @@ const projectController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const projects = await ProjectModel.getAll();
-      res.status(200).json({ count: projects.length, projects });
+      res.status(200).json({ projects });
     } catch (err) {
       console.log('getProject query error: ', err);
       res.status(500).json({ msg: 'Unable to get projects from database' });
