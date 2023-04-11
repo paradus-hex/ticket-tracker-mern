@@ -19,13 +19,9 @@ export interface Ticket {
 }
 
 const CreateTicket = ({
-  rows,
-  setRows,
   createTicket,
   projectId
 }: {
-  rows?: Ticket[];
-  setRows?: React.Dispatch<React.SetStateAction<Ticket[]>>;
   createTicket: UseMutateAsyncFunction<
     AxiosResponse<any, any>,
     any,
@@ -62,11 +58,9 @@ const CreateTicket = ({
 
       createTicket(newTicket);
 
-      // Clear the input fields
       setNewTicketTitle('');
       setNewTicketDescription('');
 
-      // Close the dialog
       handleClose();
     }
   };
@@ -81,6 +75,7 @@ const CreateTicket = ({
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>Add Ticket</DialogTitle>
+
         <DialogContent>
           <DialogContentText>
             Please enter the ticket title and description.
@@ -99,6 +94,8 @@ const CreateTicket = ({
             margin='dense'
             id='description'
             label='Description'
+            multiline
+            rows={4}
             type='text'
             fullWidth
             value={newTicketDescription}
