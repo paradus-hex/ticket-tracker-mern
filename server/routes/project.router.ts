@@ -8,7 +8,7 @@ const router = Router();
 router
   .route('/')
   .get(projectController.getAll)
-  .post(projectController.createProject);
+  .post(authorization, projectController.createProject);
 
 // http://localhost:8000/api/v1/projects/:projectId
 router

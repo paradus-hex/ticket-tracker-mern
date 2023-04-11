@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useRegisterUser } from '../../hooks/user';
+import { useRegisterUser } from '../../hooks/user.hook';
 
 export default function RegisterForm() {
   const router = useRouter();

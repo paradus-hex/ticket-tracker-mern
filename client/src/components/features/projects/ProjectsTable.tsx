@@ -19,7 +19,7 @@ import {
   useUpdateProject,
   useDeleteProject,
   UpdateProjectPayloadType
-} from '@/hooks/project';
+} from '@/hooks/project.hook,';
 
 export default function ProjectsTable() {
   const { data: projectsData, isSuccess } = useGetAllProjects();

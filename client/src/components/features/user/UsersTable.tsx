@@ -15,8 +15,12 @@ import {
 } from '@mui/x-data-grid';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import { useRouter } from 'next/router';
-import { useDeleteUser, useGetAllUsers, useRoleUpdateUser } from '@/hooks/user';
-import { UpdateRoleUserPayloadType } from '@/hooks/user';
+import {
+  useDeleteUser,
+  useGetAllUsers,
+  useRoleUpdateUser
+} from '@/hooks/user.hook';
+import { UpdateRoleUserPayloadType } from '@/hooks/user.hook';
 
 export default function UsersTable() {
   const { data: usersData, isSuccess } = useGetAllUsers();

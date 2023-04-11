@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useLoginUser } from '../../hooks/user';
+import { useLoginUser } from '../../hooks/user.hook';
 import { AuthenticationTokenKey, AuthorizationKey } from '@/utils/constants';
 
 export default function LoginForm() {

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { TextField, Box, Stack, Typography, Button } from '@mui/material';
 import { useRouter } from 'next/router';
 import ProtectedLayout from '@/components/common/ProtectedLayout';
-import { CreateProjectPayloadType, useCreateProject } from '@/hooks/project';
+import {
+  CreateProjectPayloadType,
+  useCreateProject
+} from '@/hooks/project.hook,';
 
 const CreateProject = () => {
   const { mutateAsync } = useCreateProject();
