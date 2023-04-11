@@ -16,7 +16,6 @@ const ticketController = {
   getTicket: async (req: Request, res: Response) => {
     try {
       const { ticketId } = req.params;
-      console.log('hi ma')
       const ticket = await TicketModel.getTicket(ticketId);
       res.status(200).json(ticket);
     } catch (err) {
@@ -82,6 +81,18 @@ const ticketController = {
     } catch (err) {
       console.log('deleteTicket query error: ', err);
       res.status(500).json({ msg: 'Unable to delete ticket' });
+    }
+  },
+  assignUsers: async (req: Request, res: Response) => {
+    try {
+      const { ticketId } = req.params;
+      const { userIds } = req.body
+      console.log('I luv u ma')
+      const ticket = await TicketModel.assignUsers(ticketId, userIds);
+      res.status(200).json(ticket);
+    } catch (err) {
+      console.log('getTicketById query error: ', err);
+      res.status(500).json({ msg: 'Unable to get ticket from database' });
     }
   }
 };

@@ -13,7 +13,9 @@ const TicketComponent = () => {
     <ProtectedLayout>
       {isLoading && <Box>Loading....</Box>}
       <Box className='flex justify-center'>
-        {isSuccess && <Ticket ticket={data.data} />}
+        {isSuccess && (
+          <Ticket ticketId={ticketId as string} ticket={data.data} />
+        )}
       </Box>
     </ProtectedLayout>
   );

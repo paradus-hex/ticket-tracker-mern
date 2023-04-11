@@ -35,6 +35,18 @@ const TicketModel = {
 
 
   },
+  assignUsers: async (id: string, userIds: string[]) => {
+    const assignedUsers = userIds.map((userId) =>
+      prisma.assignedUser.create({
+        data: {
+          user: { connect: { id: userId } },
+          ticket: { connect: { id } },
+        },
+      })
+    );
+
+    return await Promise.all(assignedUsers);
+  },
 
 
 

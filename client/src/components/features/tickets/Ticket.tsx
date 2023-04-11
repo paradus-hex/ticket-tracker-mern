@@ -1,4 +1,5 @@
 // src/components/Ticket.tsx
+import { useAssignUsers } from '@/hooks/ticket.hook';
 import {
   Typography,
   Paper,
@@ -34,12 +35,27 @@ export interface TicketProps {
   availableUsers: AvailableUser[];
 }
 
-export const Ticket = ({ ticket }: { ticket: TicketProps }) => {
+export const Ticket = ({
+  ticket,
+  ticketId
+}: {
+  ticket: TicketProps;
+  ticketId: string;
+}) => {
   const [open, setOpen] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>([]);
+  const { mutateAsync } = useAssignUsers(ticketId);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleSubmit = () => {
+    mutateAsync({ ticketId, userIds: selectedUsers });
+    handleClose();
+  };
+
+  React.useEffect(() => {
+    console.log(selectedUsers);
+  }, [selectedUsers]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     setSelectedUsers(event.target.value as string[]);
@@ -142,7 +158,7 @@ export const Ticket = ({ ticket }: { ticket: TicketProps }) => {
               Cancel
             </Button>
             <Button
-              onClick={handleClose}
+              onClick={handleSubmit}
               color='primary'
               variant='contained'
               className='bg-cyan-700 m-1 w-8 h-8'

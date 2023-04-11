@@ -8,7 +8,7 @@ router.route('/').get(ticketController.getAll).post(ticketController.createTicke
 router
   .route('/:ticketId')
   .get(ticketController.getTicket)
-  .delete(ticketController.deleteTicket);
+  .delete(ticketController.deleteTicket).post(ticketController.assignUsers);
 
 router.route('/:projectId').get(ticketController.getProjectTickets)
 

@@ -1,3 +1,4 @@
+import ticketId from '@/pages/projects/[projectId]';
 import { AuthenticationTokenKey } from '@/utils/constants';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -66,6 +67,26 @@ export const useGetTicket = (ticketID: string) => {
     }
   });
 };
+
+const assignUsers = ({ ticketId, userIds }: { ticketId: string, userIds: string[] }) => {
+  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}`, {
+    userIds
+  })
+}
+
+export const useAssignUsers = (ticketId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(assignUsers, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-current-ticket', ticketId]);
+    },
+    onError: (err: any) => {
+      console.log(err.response.data);
+    }
+  });
+};
+
+
 
 const updateTicket = ({
   id,
