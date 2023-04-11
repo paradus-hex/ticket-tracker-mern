@@ -66,13 +66,11 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow } as Partial<UpdateTicketPayloadType>;
-    const { title, description, ticketId, status, projectId } = updatedRow;
+    const { title, description, id, status } = updatedRow;
 
-    // Ensure both id and role are defined before calling mutateAsync
-    if (projectId && ticketId && title && description && status) {
+    if (id && title && description && status) {
       void updateTicket({
-        projectId,
-        ticketId,
+        id,
         title,
         description,
         status
@@ -87,8 +85,13 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
   };
 
   const adminColumns: GridColDef[] = [
-    { field: 'title', headerName: 'Title', flex: 1 },
-    { field: 'description', headerName: 'Description', flex: 2 },
+    { field: 'title', headerName: 'Title', flex: 1, editable: true },
+    {
+      field: 'description',
+      headerName: 'Description',
+      flex: 2,
+      editable: true
+    },
     {
       field: 'status',
       headerName: 'Status',

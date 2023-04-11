@@ -3,7 +3,7 @@ import ticketController from '../controllers/ticket.controller';
 import authorization from '../middlewares/authorization';
 const router = Router();
 
-router.route('/').get(ticketController.getAll).post(ticketController.createTicket);
+router.route('/').get(ticketController.getAll).post(ticketController.createTicket).put(ticketController.updateTicket);
 
 router
   .route('/:ticketId')

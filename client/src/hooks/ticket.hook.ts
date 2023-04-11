@@ -3,8 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 export interface UpdateTicketPayloadType {
-  projectId: string
-  ticketId: string,
+  id: string,
   title: string,
   description: string,
   status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED'
@@ -69,15 +68,15 @@ export const useGetTicket = (ticketID: string) => {
 };
 
 const updateTicket = ({
-  projectId,
-  ticketId,
+  id,
   title,
   description,
   status
 }: UpdateTicketPayloadType) => {
   return axios.put(
-    `http://localhost:8000/api/v1/ticket/${projectId}/${ticketId}`,
+    `http://localhost:8000/api/v1/ticket/`,
     {
+      id,
       title,
       description,
       status,

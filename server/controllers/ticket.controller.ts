@@ -50,29 +50,18 @@ const ticketController = {
 
   updateTicket: async (req: Request, res: Response) => {
     try {
-      //* OLD
-      // let { ticket_id, title, description, status, author_id, created_at, project_id } = req.body;
-      // let ticket = new Ticket(ticket_id, title, description, status, author_id, created_at, project_id);
-      //* OLD
-
-      let { ticketId } = req.params;
-      let { title, description, status, created_at } = req.body;
-      console.log(req.body);
-      let ticket = await TicketModel.updateTicket(
-        ticketId,
+      const { title, description, status, id } = req.body;
+      const ticket = await TicketModel.updateTicket(
+        id,
         title,
         description,
         status,
-        // author_id,
-        // project_id
       );
 
-      // ticket = await ticket.updateTicket();
-      // [ticket] = await TicketModel.getTicket(ticketId);
 
       res.status(201).json({
         status: 'Ticket updated!',
-        msg: `Ticket named ${title} updated successfully`
+        ticket
       });
     } catch (err) {
       console.log('createTicket query error: ', err);

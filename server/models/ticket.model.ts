@@ -48,13 +48,13 @@ const TicketModel = {
   },
 
   updateTicket: async (
-    ticketId: string,
+    id: string,
     title: string,
     description: string,
     status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED'
   ) => {
     return await prisma.ticket.update({
-      where: { id: ticketId },
+      where: { id },
       data: {
         title,
         description,
