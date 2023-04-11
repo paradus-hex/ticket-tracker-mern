@@ -141,3 +141,20 @@ export const useGetProjectTickets = (projectID: string) => {
     }
   );
 };
+
+
+const unAssignUser = ({ userId, ticketId }: { userId: string, ticketId: string }) => {
+  return axios.delete(`http://localhost:8000/api/v1/ticket`, { data: { ticketId, userId } });
+};
+
+export const useUnAssignUser = (ticketId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(unAssignUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-current-ticket', ticketId]);
+    },
+    onError: (err: any) => {
+      console.log(err.response.data);
+    }
+  });
+};

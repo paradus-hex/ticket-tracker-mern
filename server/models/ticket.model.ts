@@ -55,6 +55,17 @@ const TicketModel = {
 
   },
 
+  unAssignUser: async (ticketId: string, userId: string) => {
+    await prisma.assignedUser.delete({
+      where: {
+        userId_ticketId: {
+          ticketId, userId
+        }
+
+      },
+    })
+  },
+
 
 
   getProjectTickets: async (projectId: string) => {

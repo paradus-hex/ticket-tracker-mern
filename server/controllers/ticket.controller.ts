@@ -19,7 +19,6 @@ const ticketController = {
       const ticket = await TicketModel.getTicket(ticketId);
       res.status(200).json(ticket);
     } catch (err) {
-      console.log('getTicketById query error: ', err);
       res.status(500).json({ msg: 'Unable to get ticket from database' });
     }
   },
@@ -87,14 +86,23 @@ const ticketController = {
     try {
       const { ticketId } = req.params;
       const { userIds } = req.body
-      console.log('I luv u ma')
       const ticket = await TicketModel.assignUsers(ticketId, userIds);
-      res.status(200).json(ticket);
+      res.status(200).json({ ticket });
     } catch (err) {
-      console.log('getTicketById query error: ', err);
+      console.log('Assign error: ', err);
       res.status(500).json({ msg: 'Unable to get ticket from database' });
     }
-  }
+  },
+  unAssignUser: async (req: Request, res: Response) => {
+    try {
+      const { userId, ticketId } = req.body
+      const ticket = await TicketModel.unAssignUser(ticketId, userId);
+      res.status(200).json({ ticket });
+    } catch (err) {
+      console.log('Unassign Error: ', err);
+      res.status(500).json({ msg: 'Unable to get ticket from database' });
+    }
+  },
 };
 
 export default ticketController;

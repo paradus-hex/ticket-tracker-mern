@@ -1,5 +1,5 @@
 // src/components/Ticket.tsx
-import { useAssignUsers } from '@/hooks/ticket.hook';
+import { useAssignUsers, useUnAssignUser } from '@/hooks/ticket.hook';
 import {
   Typography,
   Paper,
@@ -45,12 +45,16 @@ export const Ticket = ({
   const [open, setOpen] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>([]);
   const { mutateAsync } = useAssignUsers(ticketId);
+  const { mutateAsync: unAssign } = useUnAssignUser(ticketId);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleSubmit = () => {
     mutateAsync({ ticketId, userIds: selectedUsers });
     handleClose();
+  };
+  const handleDelete = (userId: string) => {
+    unAssign({ ticketId, userId });
   };
 
   React.useEffect(() => {
@@ -89,7 +93,12 @@ export const Ticket = ({
             }}
           >
             {ticket.assignedUsers.map((user) => (
-              <Chip key={user.id} label={user.name} className='m-1' />
+              <Chip
+                onDelete={() => handleDelete(user.id)}
+                key={user.id}
+                label={user.name}
+                className='m-1'
+              />
             ))}
           </Box>
         ) : (
@@ -133,7 +142,7 @@ export const Ticket = ({
                       key={value}
                       label={
                         ticket.availableUsers.find((user) => user.id === value)
-                          ?.name || ''
+                          ?.name
                       }
                     />
                   ))}
