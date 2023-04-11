@@ -5,6 +5,7 @@ const ticketController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const ticket = await TicketModel.getAll();
+      console.log('hello world')
       res.status(200).json(ticket);
     } catch (err: any) {
       console.log('getTicket query error: ', err);
@@ -15,6 +16,7 @@ const ticketController = {
   getTicket: async (req: Request, res: Response) => {
     try {
       const { ticketId } = req.params;
+      console.log('hi ma')
       const ticket = await TicketModel.getTicket(ticketId);
       res.status(200).json(ticket);
     } catch (err) {

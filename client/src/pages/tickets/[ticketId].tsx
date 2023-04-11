@@ -2,35 +2,18 @@ import React from 'react';
 import ProtectedLayout from '@/components/common/ProtectedLayout';
 import { Ticket } from '@/components/features/tickets/Ticket';
 import { Box } from '@mui/material';
+import { useGetTicket } from '@/hooks/ticket.hook';
+import { useRouter } from 'next/router';
 
 const TicketComponent = () => {
-  const tickets = {
-    id: 'cuid1',
-    title: 'Ticket 1',
-    description: 'This is a description for Ticket 1.',
-    project: {
-      id: 'project1',
-      name: 'Project 1'
-    },
-    projectId: 'project1',
-    status: 'UNASSIGNED',
-    assignedUser: [
-      {
-        id: 'user1',
-        name: 'User 1'
-      }
-    ],
-    availableUsers: [
-      {
-        id: '222',
-        name: 'Somehwta'
-      }
-    ]
-  };
+  const { ticketId } = useRouter().query;
+  const { data, isLoading, isSuccess } = useGetTicket(ticketId as string);
+
   return (
     <ProtectedLayout>
+      {isLoading && <Box>Loading....</Box>}
       <Box className='flex justify-center'>
-        <Ticket ticket={tickets} />
+        {isSuccess && <Ticket ticket={data.data} />}
       </Box>
     </ProtectedLayout>
   );

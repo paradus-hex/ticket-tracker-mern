@@ -7,27 +7,53 @@ const TicketModel = {
   },
 
   getTicket: async (id: string) => {
-    return await prisma.ticket.findUnique({
+    const ticketWithAssignedUsers = await prisma.ticket.findUnique({
       where: { id },
-      include: { AssignedUser: true },
+      include: {
+        AssignedUser: {
+          select: {
+            user: true,
+          },
+        },
+      },
     });
+
+    if (ticketWithAssignedUsers) {
+      const assignedUsers = ticketWithAssignedUsers.AssignedUser.map((assignedUser) => assignedUser.user);
+      const availableUsers = await prisma.user.findMany({
+        where: {
+          assigned: { none: {} },
+        },
+      });
+
+      return {
+        ...ticketWithAssignedUsers,
+        assignedUsers,
+        availableUsers,
+      };
+    }
+
+
   },
 
+
+
   getProjectTickets: async (projectId: string) => {
-    // console.log('hebabguaghuibgiub')
-    // return await prisma.project.findMany({
-    //   where: { id: projectId },
-    //   select: { tickets: true }
-    // });
-    return await prisma.project.findMany({
+    return await prisma.project.findUnique({
+      where: { id: projectId },
       select: {
-        id: true,
-        title: true,
-        description: true,
-        tickets: true,
+        tickets: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            status: true,
+          },
+        },
       },
     });
   },
+
 
   createTicket: async (
     title: string,

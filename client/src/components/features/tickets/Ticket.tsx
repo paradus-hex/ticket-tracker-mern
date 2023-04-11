@@ -14,11 +14,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-interface Project {
-  id: string;
-  name: string;
-}
-
 interface AssignedUser {
   id: string;
   name: string;
@@ -33,10 +28,9 @@ export interface TicketProps {
   id: string;
   title: string;
   description: string;
-  project: Project;
   projectId: string;
   status: string;
-  assignedUser: AssignedUser[];
+  assignedUsers: AssignedUser[];
   availableUsers: AvailableUser[];
 }
 
@@ -65,15 +59,12 @@ export const Ticket = ({ ticket }: { ticket: TicketProps }) => {
       <Typography variant='body1' gutterBottom>
         {ticket.description}
       </Typography>
-      <Typography variant='subtitle1'>
-        Project: <span className='text-bold'>{ticket.project.name}</span>
-      </Typography>
       <Typography variant='subtitle1' gutterBottom>
         Status: <Chip label={ticket.status} className='m-1' />
       </Typography>
       <Typography variant='subtitle1'>Assigned Users:</Typography>
       <Box className='flex '>
-        {ticket.assignedUser.length > 0 ? (
+        {ticket.assignedUsers.length > 0 ? (
           <Box
             sx={{
               display: 'flex',
@@ -81,7 +72,7 @@ export const Ticket = ({ ticket }: { ticket: TicketProps }) => {
               gap: '0.5rem'
             }}
           >
-            {ticket.assignedUser.map((user) => (
+            {ticket.assignedUsers.map((user) => (
               <Chip key={user.id} label={user.name} className='m-1' />
             ))}
           </Box>
@@ -114,7 +105,6 @@ export const Ticket = ({ ticket }: { ticket: TicketProps }) => {
             Assign Users
           </Typography>
           <FormControl fullWidth>
-            <InputLabel htmlFor='assign-users'>Select Users</InputLabel>
             <Select
               id='assign-users'
               multiple
