@@ -22,7 +22,13 @@ const TicketModel = {
       const assignedUsers = ticketWithAssignedUsers.AssignedUser.map((assignedUser) => assignedUser.user);
       const availableUsers = await prisma.user.findMany({
         where: {
-          assigned: { none: {} },
+          assigned: {
+            none: {
+              ticket: {
+                id
+              },
+            },
+          },
         },
       });
 
@@ -46,6 +52,7 @@ const TicketModel = {
     );
 
     return await Promise.all(assignedUsers);
+
   },
 
 
