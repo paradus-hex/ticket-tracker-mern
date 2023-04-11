@@ -7,6 +7,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
 export interface Ticket {
   id: string;
@@ -24,7 +26,16 @@ const CreateTicket = ({
 }: {
   rows?: Ticket[];
   setRows?: React.Dispatch<React.SetStateAction<Ticket[]>>;
-  createTicket: any;
+  createTicket: UseMutateAsyncFunction<
+    AxiosResponse<any, any>,
+    any,
+    {
+      title: string;
+      description: string;
+      projectId: string;
+    },
+    unknown
+  >;
   projectId: string;
 }) => {
   const [openDialog, setOpenDialog] = React.useState(false);
@@ -41,17 +52,15 @@ const CreateTicket = ({
 
   const handleAddTicket = () => {
     if (newTicketTitle && newTicketDescription) {
-      // Call your API here to add a new ticket
       const newTicket = {
         title: newTicketTitle,
         description: newTicketDescription,
         projectId
       };
 
-      createTicket(newTicket);
+      console.log(newTicket, 'here i am');
 
-      // Add the new ticket to the local state (rows)
-      // setRows([...rows, newTicket]);
+      createTicket(newTicket);
 
       // Clear the input fields
       setNewTicketTitle('');

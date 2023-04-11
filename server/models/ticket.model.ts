@@ -36,7 +36,13 @@ const TicketModel = {
   ) => {
     return await prisma.ticket.create({
       data: {
-        title, description, projectId
+        title,
+        description,
+        project: {
+          connect: {
+            id: projectId,
+          },
+        }
       }
     });
   },

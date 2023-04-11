@@ -11,15 +11,13 @@ export interface UpdateTicketPayloadType {
 }
 
 
-const createTicket = ({ projectId, createTicketPayload }: {
-  projectId: string, createTicketPayload: {
-    title: string,
-    description: string,
-    projectId: string
-  }
+const createTicket = (createTicketPayload: {
+  title: string,
+  description: string,
+  projectId: string
 }) => {
   return axios.post(
-    `http://localhost:8000/api/v1/ticket/${projectId}`,
+    `http://localhost:8000/api/v1/ticket/`,
     createTicketPayload
   );
 };
