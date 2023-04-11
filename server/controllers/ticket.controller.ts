@@ -5,7 +5,6 @@ const ticketController = {
   getAll: async (req: Request, res: Response) => {
     try {
       const ticket = await TicketModel.getAll();
-      // res.status(200).json({ count: ticket.length, ticket });
       res.status(200).json(ticket);
     } catch (err: any) {
       console.log('getTicket query error: ', err);
@@ -71,14 +70,12 @@ const ticketController = {
 
   deleteTicket: async (req: Request, res: Response) => {
     try {
-      let { projectId } = req.params;
-      let { ticket_id } = req.body;
-
-      let ticket = await TicketModel.deleteTicket(ticket_id);
+      let { ticketId } = req.body;
+      console.log()
+      let ticket = await TicketModel.deleteTicket(ticketId);
 
       res.status(201).json({
-        status: 'Ticket deleted!',
-        msg: `Ticket named ${ticket_id} deleted successfully`
+        status: 'Ticket deleted!', ticket
       });
     } catch (err) {
       console.log('deleteTicket query error: ', err);

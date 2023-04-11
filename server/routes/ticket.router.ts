@@ -8,9 +8,8 @@ router.route('/').get(ticketController.getAll).post(ticketController.createTicke
 router
   .route('/:ticketId')
   .get(ticketController.getTicket)
-  .delete(authorization, ticketController.deleteTicket);
+  .delete(ticketController.deleteTicket);
 
-router.route('/:projectId/:ticketId').put(authorization, ticketController.updateTicket);
 router.route('/:projectId').get(ticketController.getProjectTickets)
 
 export default router;
