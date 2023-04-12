@@ -139,6 +139,16 @@ const TicketModel = {
       where: { id: ticketId },
     });
   },
+  addComment: async (userId: string, ticketId: string, content: string) => {
+    return await prisma.comment.create({
+      data: {
+        content,
+        author: { connect: { id: userId } },
+        ticket: { connect: { id: ticketId } },
+      }
+    })
+
+  }
 };
 
 export default TicketModel;

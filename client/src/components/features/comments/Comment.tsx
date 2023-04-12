@@ -7,13 +7,22 @@ import React from 'react';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { CommentType } from '../tickets/Ticket';
+import { useAddComment } from '@/hooks/ticket.hook';
+import ticketId from '@/pages/projects/[projectId]';
 
-const Comment = ({ ticket }: any) => {
+const Comment = ({
+  comments,
+  ticketId,
+  userId
+}: {
+  comments: CommentType[];
+  ticketId: string;
+  userId: string;
+}) => {
   const [newComment, setNewComment] = React.useState('');
+  const { mutateAsync } = useAddComment(ticketId);
   const addComment = () => {
-    // Dummy function to simulate adding a new comment
-    // You'll need to replace this with an actual API call to add a comment
-    console.log('New comment:', newComment);
+    mutateAsync({ content: newComment, ticketId, userId });
     setNewComment('');
   };
 
@@ -30,65 +39,44 @@ const Comment = ({ ticket }: any) => {
     return formatter.format(date);
   };
 
-  const dummyComments: CommentType[] = [
-    {
-      id: 'comment1',
-      content: 'This is a comment on this ticket.',
-      createdAt: '2023-04-10T15:30:00.000Z',
-      author: {
-        id: 'user1',
-        name: 'John Doe'
-      },
-      upvoteCount: 3
-    },
-    {
-      id: 'comment2',
-      content: 'Another comment on this ticket.',
-      createdAt: '2023-04-11T10:00:00.000Z',
-      author: {
-        id: 'user2',
-        name: 'Jane Smith'
-      },
-      upvoteCount: 1
-    }
-  ];
   const { data: sessionData } = useCurrentUser();
   return (
     <Box sx={{ marginTop: '1rem', maxHeight: '100%', overflowY: 'auto' }}>
-      {dummyComments.map((comment: any) => (
-        <Card key={comment.id} sx={{ marginTop: '1rem' }}>
-          <CardContent>
-            <Typography variant='body2' gutterBottom>
-              {comment.content}
-            </Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: '0.5rem'
-              }}
-            >
-              <Typography variant='caption'>
-                {comment.author.name} | {formatDate(comment.createdAt)}
+      {comments &&
+        comments.map((comment: any) => (
+          <Card key={comment.id} sx={{ marginTop: '1rem' }}>
+            <CardContent>
+              <Typography variant='body2' gutterBottom>
+                {comment.content}
               </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton
-                  aria-label='upvote'
-                  onClick={() => {
-                    // handle upvote logic here
-                  }}
-                >
-                  <ThumbUpAltIcon />
-                </IconButton>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: '0.5rem'
+                }}
+              >
                 <Typography variant='caption'>
-                  {comment.upvoteCount} upvotes
+                  {comment.author.name} | {formatDate(comment.createdAt)}
                 </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <IconButton
+                    aria-label='upvote'
+                    onClick={() => {
+                      // handle upvote logic here
+                    }}
+                  >
+                    <ThumbUpAltIcon />
+                  </IconButton>
+                  <Typography variant='caption'>
+                    {comment.upvoteCount} upvotes
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        ))}
       {sessionData && (
         <Box
           sx={{

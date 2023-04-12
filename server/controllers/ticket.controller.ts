@@ -102,7 +102,18 @@ const ticketController = {
       console.log('Unassign Error: ', err);
       res.status(500).json({ msg: 'Unable to get ticket from database' });
     }
+  }, addComment: async (req: Request, res: Response) => {
+    try {
+      const { ticketId, userId } = req.params;
+      const { content } = req.body
+      const comments = await TicketModel.addComment(userId, ticketId, content);
+      res.status(200).json({ comments });
+    } catch (err) {
+      console.log('Add Comment: ', err);
+      res.status(500).json({ msg: 'Unable to add comment' });
+    }
   },
+
 };
 
 export default ticketController;

@@ -158,3 +158,22 @@ export const useUnAssignUser = (ticketId: string) => {
     }
   });
 };
+
+
+const addComment = ({ ticketId, userId, content }: { ticketId: string, userId: string, content: string }) => {
+  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`, {
+    content
+  })
+}
+
+export const useAddComment = (ticketId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(addComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-current-ticket', ticketId]);
+    },
+    onError: (err: any) => {
+      console.log(err.response.data);
+    }
+  });
+};

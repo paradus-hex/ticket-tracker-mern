@@ -47,7 +47,7 @@ export interface TicketProps {
   status: string;
   assignedUsers: AssignedUser[];
   availableUsers: AvailableUser[];
-  comments: Comment[];
+  comment: CommentType[];
 }
 
 export const Ticket = ({
@@ -60,12 +60,6 @@ export const Ticket = ({
   const [open, setOpen] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>([]);
   const [newComment, setNewComment] = React.useState('');
-  const addComment = () => {
-    // Dummy function to simulate adding a new comment
-    // You'll need to replace this with an actual API call to add a comment
-    console.log('New comment:', newComment);
-    setNewComment('');
-  };
   const { mutateAsync } = useAssignUsers(ticketId);
   const { mutateAsync: unAssign } = useUnAssignUser(ticketId);
   const { data: sessionData } = useCurrentUser();
@@ -81,8 +75,8 @@ export const Ticket = ({
   };
 
   React.useEffect(() => {
-    console.log(selectedUsers);
-  }, [selectedUsers]);
+    console.log(ticket);
+  }, [ticket]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     setSelectedUsers(event.target.value as string[]);
@@ -212,7 +206,13 @@ export const Ticket = ({
         </Modal>
       </Paper>
       <Container className='max-h-screen'>
-        <Comment />
+        {sessionData && sessionData.user.id && (
+          <Comment
+            ticketId={ticketId}
+            comments={ticket.comment}
+            userId={sessionData.user.id as string}
+          />
+        )}
       </Container>
     </Box>
   );
