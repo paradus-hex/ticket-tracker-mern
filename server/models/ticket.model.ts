@@ -122,14 +122,15 @@ const TicketModel = {
     id: string,
     title: string,
     description: string,
-    status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED'
+    status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED',
+    category: 'FEATURE' | 'BUGFIX'
   ) => {
     return await prisma.ticket.update({
       where: { id },
       data: {
         title,
         description,
-        status,
+        status, category
       },
     });
   },

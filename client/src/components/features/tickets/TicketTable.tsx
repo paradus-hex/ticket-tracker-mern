@@ -65,14 +65,15 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
 
   const processRowUpdate = (newRow: GridRowModel) => {
     const updatedRow = { ...newRow } as Partial<UpdateTicketPayloadType>;
-    const { title, description, id, status } = updatedRow;
+    const { title, description, id, status, category } = updatedRow;
 
-    if (id && title && description && status) {
+    if (id && title && description && status && category) {
       void updateTicket({
         id,
         title,
         description,
-        status
+        status,
+        category
       });
     }
 

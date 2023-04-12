@@ -7,7 +7,8 @@ export interface UpdateTicketPayloadType {
   id: string,
   title: string,
   description: string,
-  status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED'
+  status: 'INPROGRESS' | 'RESOLVED' | 'UNASSIGNED',
+  category: 'FEATURE' | 'BUGFIX'
 }
 
 
@@ -102,7 +103,8 @@ const updateTicket = ({
   id,
   title,
   description,
-  status
+  status,
+  category
 }: UpdateTicketPayloadType) => {
   return axios.put(
     `http://localhost:8000/api/v1/ticket/`,
@@ -110,7 +112,7 @@ const updateTicket = ({
       id,
       title,
       description,
-      status,
+      status, category
     },
     {
       headers: {

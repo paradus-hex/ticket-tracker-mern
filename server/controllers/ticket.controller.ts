@@ -26,7 +26,6 @@ const ticketController = {
   getProjectTickets: async (req: Request, res: Response) => {
     try {
       const { projectId } = req.params;
-      console.log('Hi MAA', projectId)
       const ticket = await TicketModel.getProjectTickets(projectId);
 
       res.status(200).json(ticket);
@@ -50,12 +49,13 @@ const ticketController = {
 
   updateTicket: async (req: Request, res: Response) => {
     try {
-      const { title, description, status, id } = req.body;
+      const { title, description, status, id, category } = req.body;
+      console.log('hello', category)
       const ticket = await TicketModel.updateTicket(
         id,
         title,
         description,
-        status,
+        status, category
       );
 
 
