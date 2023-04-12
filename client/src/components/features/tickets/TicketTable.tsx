@@ -98,11 +98,11 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
   };
 
   const adminColumns: GridColDef[] = [
-    { field: 'title', headerName: 'Title', flex: 1, editable: true },
+    { field: 'title', headerName: 'Title', flex: 2, editable: true },
     {
       field: 'description',
       headerName: 'Description',
-      flex: 2,
+      flex: 3,
       editable: true
     },
     {
@@ -114,12 +114,20 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
       editable: true,
       cellClassName: (params) => getStatusClassName(params.value)
     },
+    {
+      field: 'category',
+      headerName: 'Category',
+      type: 'singleSelect',
+      valueOptions: ['FEATURE', 'BUGFIX'],
+      flex: 1,
+      editable: true
+    },
 
     {
       field: 'actions',
       type: 'actions',
       headerName: 'Actions',
-      flex: 1,
+      flex: 0.5,
       cellClassName: 'actions',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -165,8 +173,13 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
   ];
 
   const userColumns: GridColDef[] = [
-    { field: 'title', headerName: 'Title', flex: 1 },
-    { field: 'description', headerName: 'Description', flex: 2 },
+    { field: 'title', headerName: 'Title', flex: 2, editable: true },
+    {
+      field: 'description',
+      headerName: 'Description',
+      flex: 3,
+      editable: true
+    },
     {
       field: 'status',
       headerName: 'Status',
@@ -175,6 +188,14 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
       flex: 1,
       editable: true,
       cellClassName: (params) => getStatusClassName(params.value)
+    },
+    {
+      field: 'category',
+      headerName: 'Category',
+      type: 'singleSelect',
+      valueOptions: ['FEATURE', 'BUGFIX'],
+      flex: 1,
+      editable: true
     }
   ];
 

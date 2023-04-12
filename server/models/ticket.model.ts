@@ -10,7 +10,7 @@ const TicketModel = {
     const ticketWithAssignedUsers = await prisma.ticket.findUnique({
       where: { id },
       include: {
-        AssignedUser: {
+        assignedUser: {
           select: {
             user: true,
           },
@@ -19,7 +19,7 @@ const TicketModel = {
     });
 
     if (ticketWithAssignedUsers) {
-      const assignedUsers = ticketWithAssignedUsers.AssignedUser.map((assignedUser) => assignedUser.user);
+      const assignedUsers = ticketWithAssignedUsers.assignedUser.map((assignedUser) => assignedUser.user);
       const availableUsers = await prisma.user.findMany({
         where: {
           assigned: {
@@ -78,6 +78,7 @@ const TicketModel = {
             title: true,
             description: true,
             status: true,
+            category: true
           },
         },
       },
