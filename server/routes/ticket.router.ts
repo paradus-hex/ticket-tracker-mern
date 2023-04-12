@@ -1,26 +1,27 @@
 import { Router } from 'express';
 import ticketController from '../controllers/ticket.controller';
+import authorization from '../middlewares/authorization';
 
 const router = Router();
 
-// Separate routes for better readability
+
 router.route('/')
   .get(ticketController.getAll)
-  .post(ticketController.createTicket)
-  .put(ticketController.updateTicket)
-  .delete(ticketController.unAssignUser);
+  .post(authorization, ticketController.createTicket)
+  .put(authorization, ticketController.updateTicket)
+  .delete(authorization, ticketController.unAssignUser);
 
 router.route('/:ticketId')
   .get(ticketController.getTicket)
-  .delete(ticketController.deleteTicket)
-  .post(ticketController.assignUsers);
+  .delete(authorization, ticketController.deleteTicket)
+  .post(authorization, ticketController.assignUsers);
 
 router.route('/project/:projectId') //'/project' to avoid conflicts with ticketId route
   .get(ticketController.getProjectTickets);
 
 router.route('/:ticketId/comment/:userId') // '/comment' to avoid conflicts and 
-  .post(ticketController.addComment)
-  .delete(ticketController.deleteComment)
-  .put(ticketController.editComment);
+  .post(authorization, ticketController.addComment)
+  .delete(authorization, ticketController.deleteComment)
+  .put(authorization, ticketController.editComment);
 
 export default router;
