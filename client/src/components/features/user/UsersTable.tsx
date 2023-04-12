@@ -117,13 +117,13 @@ export default function UsersTable() {
           return [
             <GridActionsCellItem
               key={id}
-              icon={<SaveIcon />}
+              icon={<SaveIcon className='text-orange-300' />}
               label='Save'
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
               key={id}
-              icon={<CancelIcon />}
+              icon={<CancelIcon className='text-red-300' />}
               label='Cancel'
               className='textPrimary'
               onClick={handleCancelClick(id)}
@@ -135,7 +135,7 @@ export default function UsersTable() {
         return [
           <GridActionsCellItem
             key={id}
-            icon={<EditIcon />}
+            icon={<EditIcon className='text-orange-300' />}
             label='Edit'
             className='textPrimary'
             onClick={handleEditClick(id)}
@@ -143,7 +143,7 @@ export default function UsersTable() {
           />,
           <GridActionsCellItem
             key={id}
-            icon={<DeleteIcon />}
+            icon={<DeleteIcon className='text-red-300' />}
             label='Delete'
             onClick={handleDeleteClick(id)}
             color='inherit'

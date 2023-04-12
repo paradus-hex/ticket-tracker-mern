@@ -37,8 +37,8 @@ const UserCard = ({ user }: { user: User }) => {
         <Typography variant='body2' color='text.secondary'>
           {email}
         </Typography>
-        <Typography variant='body1' color='text.primary' className='mt-2'>
-          Role: {role}
+        <Typography variant='body1' color='text.secondary' className='mt-2'>
+          Role: <span className='text-lime-300'>{role}</span>{' '}
         </Typography>
       </CustomCardContent>
     </CustomCard>
