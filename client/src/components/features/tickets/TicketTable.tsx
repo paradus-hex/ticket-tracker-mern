@@ -84,6 +84,19 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
     setRowModesModel(newRowModesModel);
   };
 
+  const getStatusClassName = (status: string) => {
+    switch (status) {
+      case 'INPROGRESS':
+        return 'status-inprogress';
+      case 'RESOLVED':
+        return 'status-resolved';
+      case 'UNASSIGNED':
+        return 'status-unassigned';
+      default:
+        return '';
+    }
+  };
+
   const adminColumns: GridColDef[] = [
     { field: 'title', headerName: 'Title', flex: 1, editable: true },
     {
@@ -98,7 +111,8 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
       type: 'singleSelect',
       valueOptions: ['UNASSIGNED', 'INPROGRESS', 'RESOLVED'],
       flex: 1,
-      editable: true
+      editable: true,
+      cellClassName: (params) => getStatusClassName(params.value)
     },
 
     {
@@ -159,7 +173,8 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
       type: 'singleSelect',
       valueOptions: ['UNASSIGNED', 'INPROGRESS', 'RESOLVED'],
       flex: 1,
-      editable: true
+      editable: true,
+      cellClassName: (params) => getStatusClassName(params.value)
     }
   ];
 
