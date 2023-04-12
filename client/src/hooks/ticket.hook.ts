@@ -157,7 +157,7 @@ export const useUnAssignUser = (ticketId: string) => {
 
 
 const addComment = ({ ticketId, userId, content }: { ticketId: string, userId: string, content: string }) => {
-  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`, {
+  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`, {
     content
   })
 }
@@ -175,7 +175,7 @@ export const useAddComment = (ticketId: string) => {
 };
 
 const deleteComment = ({ ticketId, userId, id }: { ticketId: string, userId: string, id: string }) => {
-  return axios.delete(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`, {
+  return axios.delete(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`, {
     data: { id }
   })
 }
@@ -193,7 +193,7 @@ export const useDeleteComment = (ticketId: string) => {
 };
 
 const editComment = ({ ticketId, userId, id, content }: { ticketId: string, userId: string, id: string, content: string }) => {
-  return axios.put(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`,
+  return axios.put(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`,
     { id, content }
   )
 }

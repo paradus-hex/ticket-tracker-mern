@@ -80,7 +80,7 @@ export const useGetAllProjects = () => {
 const deleteProject = (ProjectID: string) => {
   return axios.delete(`http://localhost:8000/api/v1/project/${ProjectID}`, {
     headers: {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem(AuthenticationTokenKey)
     }
   });
 };

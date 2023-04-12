@@ -15,10 +15,10 @@ router.route('/:ticketId')
   .delete(ticketController.deleteTicket)
   .post(ticketController.assignUsers);
 
-router.route('/project/:projectId') // Add '/project' to avoid conflicts with ticketId route
+router.route('/project/:projectId') //'/project' to avoid conflicts with ticketId route
   .get(ticketController.getProjectTickets);
 
-router.route('/:ticketId/comment/:userId') // Add '/user' to avoid conflicts and improve readability
+router.route('/:ticketId/comment/:userId') // '/comment' to avoid conflicts and 
   .post(ticketController.addComment)
   .delete(ticketController.deleteComment)
   .put(ticketController.editComment);
