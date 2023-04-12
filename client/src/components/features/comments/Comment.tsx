@@ -3,11 +3,11 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Box, TextField, Button, Stack } from '@mui/material';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { CommentType } from '../tickets/Ticket';
-import { useAddComment } from '@/hooks/ticket.hook';
+import { useAddComment, useDeleteComment } from '@/hooks/ticket.hook';
 import ticketId from '@/pages/projects/[projectId]';
 
 const Comment = ({
@@ -21,9 +21,23 @@ const Comment = ({
 }) => {
   const [newComment, setNewComment] = React.useState('');
   const { mutateAsync } = useAddComment(ticketId);
+  const { mutateAsync: deleteComment } = useDeleteComment(ticketId);
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [editedComment, setEditedComment] = useState<string>('');
   const addComment = () => {
     mutateAsync({ content: newComment, ticketId, userId });
     setNewComment('');
+  };
+  const handleEditClick = (commentId: string, content: string) => {
+    setEditingCommentId(commentId);
+    setEditedComment(content);
+  };
+  const handleUpdateComment = () => {
+    // Update the comment with the editedComment value
+    // You can use the existing useUpdateComment hook or create a new one for updating comments
+    // After updating, reset the editing mode
+    setEditingCommentId(null);
+    setEditedComment('');
   };
 
   const formatDate = (dateString: string) => {
@@ -46,9 +60,19 @@ const Comment = ({
         comments.map((comment: CommentType) => (
           <Card key={comment.id} sx={{ marginTop: '1rem' }}>
             <CardContent>
-              <Typography variant='body2' className='text-lime-400'>
-                {comment.content}
-              </Typography>
+              {editingCommentId === comment.id ? (
+                <TextField
+                  value={editedComment}
+                  onChange={(e) => setEditedComment(e.target.value)}
+                  onBlur={handleUpdateComment}
+                  fullWidth
+                  autoFocus
+                />
+              ) : (
+                <Typography variant='body2' className='text-lime-400'>
+                  {comment.content}
+                </Typography>
+              )}
               <Box
                 sx={{
                   display: 'flex',
@@ -78,15 +102,31 @@ const Comment = ({
                   </Typography>
                 </Box>
                 <Stack direction='row' spacing={2}>
+                  {editingCommentId === comment.id ? (
+                    <Typography
+                      variant='subtitle2'
+                      className='hover:cursor-pointer hover:text-blue-400'
+                      onClick={handleUpdateComment}
+                    >
+                      Save
+                    </Typography>
+                  ) : (
+                    <Typography
+                      variant='subtitle2'
+                      className='hover:cursor-pointer hover:text-blue-400'
+                      onClick={() =>
+                        handleEditClick(comment.id, comment.content)
+                      }
+                    >
+                      Edit
+                    </Typography>
+                  )}
                   <Typography
                     variant='subtitle2'
                     className='hover:cursor-pointer hover:text-blue-400'
-                  >
-                    Edit
-                  </Typography>
-                  <Typography
-                    variant='subtitle2'
-                    className='hover:cursor-pointer hover:text-blue-400'
+                    onClick={() =>
+                      deleteComment({ id: comment.id, ticketId, userId })
+                    }
                   >
                     Delete
                   </Typography>

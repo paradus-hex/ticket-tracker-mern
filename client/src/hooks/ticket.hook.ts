@@ -177,3 +177,21 @@ export const useAddComment = (ticketId: string) => {
     }
   });
 };
+
+const deleteComment = ({ ticketId, userId, id }: { ticketId: string, userId: string, id: string }) => {
+  return axios.delete(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`, {
+    data: { id }
+  })
+}
+
+export const useDeleteComment = (ticketId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(deleteComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-current-ticket', ticketId]);
+    },
+    onError: (err: any) => {
+      console.log(err.response.data);
+    }
+  });
+};

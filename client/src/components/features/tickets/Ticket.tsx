@@ -83,7 +83,7 @@ export const Ticket = ({
   };
 
   return (
-    <Box className='flex justify-center items-center'>
+    <Box className='flex w- justify-between items-center'>
       <Paper
         sx={{
           padding: '2rem',
@@ -205,7 +205,7 @@ export const Ticket = ({
           </Box>
         </Modal>
       </Paper>
-      <Container className='max-h-screen'>
+      <Container className='max-h-screen ml-16'>
         {sessionData && sessionData.user.id && (
           <Comment
             ticketId={ticketId}
