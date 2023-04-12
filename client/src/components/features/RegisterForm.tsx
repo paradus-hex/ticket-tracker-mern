@@ -13,8 +13,7 @@ import { useRegisterUser } from '../../hooks/user.hook';
 
 export default function RegisterForm() {
   const router = useRouter();
-  const onSuccess = (successData: any) => {
-    console.log(successData.data);
+  const onSuccess = () => {
     router.push('/');
   };
   const { mutate: newUser } = useRegisterUser(onSuccess);

@@ -19,7 +19,7 @@ const createProject = (createProjectPayload: CreateProjectPayloadType) => {
     createProjectPayload,
     {
       headers: {
-        token: localStorage.getItem('token')
+        token: localStorage.getItem(AuthenticationTokenKey)
       }
     }
   );

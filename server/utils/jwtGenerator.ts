@@ -6,12 +6,13 @@ function jwtGenerator(user_id: string) {
   const payload = {
     user: user_id
   };
-
-  return jwt.sign(
-    payload,
-    process.env.JWT_SECRET!
-    // { expiresIn: "1hr" }
-  );
+  const secret = process.env.JWT_SECRET
+  console.log('sectet generated!', secret)
+  if (secret)
+    return jwt.sign(
+      payload,
+      secret
+    );
 }
 
 export default jwtGenerator;

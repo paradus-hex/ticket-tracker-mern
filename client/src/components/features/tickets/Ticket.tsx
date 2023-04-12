@@ -1,5 +1,6 @@
 // src/components/Ticket.tsx
 import { useAssignUsers, useUnAssignUser } from '@/hooks/ticket.hook';
+import useCurrentUser from '@/hooks/useCurrentUser';
 import {
   Typography,
   Paper,
@@ -46,6 +47,7 @@ export const Ticket = ({
   const [selectedUsers, setSelectedUsers] = React.useState<string[]>([]);
   const { mutateAsync } = useAssignUsers(ticketId);
   const { mutateAsync: unAssign } = useUnAssignUser(ticketId);
+  const { data: sessionData } = useCurrentUser();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -94,24 +96,28 @@ export const Ticket = ({
           >
             {ticket.assignedUsers.map((user) => (
               <Chip
-                onDelete={() => handleDelete(user.id)}
+                onDelete={
+                  sessionData && sessionData.user.role === 'ADMIN'
+                    ? () => handleDelete(user.id)
+                    : undefined
+                }
                 key={user.id}
                 label={user.name}
                 className='m-1'
               />
             ))}
           </Box>
-        ) : (
-          <Typography variant='body1'>No assigned users</Typography>
-        )}
+        ) : null}
 
-        <Button
-          onClick={handleOpen}
-          variant='contained'
-          className='bg-cyan-700 m-1 w-8 h-8'
-        >
-          +ADD
-        </Button>
+        {sessionData && sessionData.user.role === 'ADMIN' && (
+          <Button
+            onClick={handleOpen}
+            variant='contained'
+            className='bg-cyan-700 m-1 w-8 h-8'
+          >
+            +ADD
+          </Button>
+        )}
       </Box>
       <Modal open={open} onClose={handleClose}>
         <Box

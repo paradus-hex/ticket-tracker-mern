@@ -20,9 +20,11 @@ import {
   useDeleteProject,
   UpdateProjectPayloadType
 } from '@/hooks/project.hook,';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 export default function ProjectsTable() {
   const { data: projectsData, isSuccess } = useGetAllProjects();
+  const { data: userSession } = useCurrentUser();
 
   const router = useRouter();
 
@@ -75,7 +77,7 @@ export default function ProjectsTable() {
     return updatedRow;
   };
 
-  const columns: GridColDef[] = [
+  const adminsColumns: GridColDef[] = [
     {
       field: 'title',
       headerName: 'Title',
@@ -138,6 +140,22 @@ export default function ProjectsTable() {
       }
     }
   ];
+  const usersColumns: GridColDef[] = [
+    {
+      field: 'title',
+      headerName: 'Title',
+      width: 180,
+      editable: true,
+      flex: 1
+    },
+    {
+      field: 'description',
+      headerName: 'Description',
+      width: 360,
+      editable: true,
+      flex: 2
+    }
+  ];
 
   return (
     <Box className='flex items-center justify-center'>
@@ -153,17 +171,27 @@ export default function ProjectsTable() {
           }
         }}
       >
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          editMode='row'
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={handleRowModesModelChange}
-          processRowUpdate={processRowUpdate}
-          onRowClick={(params) => {
-            void router.push(`projects/${params.id}`);
-          }}
-        />
+        {userSession && userSession.user.role === 'ADMIN' ? (
+          <DataGrid
+            rows={rows}
+            columns={adminsColumns}
+            editMode='row'
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            processRowUpdate={processRowUpdate}
+            onRowClick={(params) => {
+              void router.push(`/projects/${params.id}`);
+            }}
+          />
+        ) : (
+          <DataGrid
+            rows={rows}
+            columns={usersColumns}
+            onRowClick={(params) => {
+              void router.push(`/projects/${params.id}`);
+            }}
+          />
+        )}
       </Box>
     </Box>
   );

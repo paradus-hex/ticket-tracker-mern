@@ -165,14 +165,14 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
 
   return (
     <Box className='flex flex-col items-center justify-center'>
-      <Container maxWidth='md'>
+      <Container>
         <Box className='self-end py-5'>
           <CreateTicket projectId={projectId} createTicket={createTicket} />
         </Box>
         <Box
           sx={{
             height: 500,
-            width: '100%', // Change width to 100%
+            width: '100%',
             '& .actions': {
               color: 'text.secondary'
             },

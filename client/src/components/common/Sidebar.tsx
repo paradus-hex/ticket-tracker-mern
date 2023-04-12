@@ -2,6 +2,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
@@ -62,36 +63,6 @@ const Drawer = styled(MuiDrawer, {
     '& .MuiDrawer-paper': closedMixin(theme)
   })
 }));
-
-// function SidebarItem({
-//   href,
-//   label,
-//   icon,
-// }: {
-//   href: string;
-//   label?: string;
-//   icon: ReactNode;
-// }) {
-//   return (
-//     <Link rel="noopener noreferrer" href={href}>
-//       <ListItemButton
-//         sx={{
-//           minHeight: 48,
-//           px: 2.5,
-//         }}
-//       >
-//         <Box mr={2}>{icon}</Box>
-//         {label && (
-//           <ListItemText
-//             primary={<Typography fontWeight={600}>{label}</Typography>}
-//             disableTypography
-//             color="secondary"
-//           />
-//         )}
-//       </ListItemButton>
-//     </Link>
-//   );
-// }
 
 function SidebarItem({
   href,
@@ -234,12 +205,12 @@ export default function SideBar() {
                 />
               </ListItem>
             </Tooltip>
-            <Tooltip title='Account Setting' placement='right'>
+            <Tooltip title='Logout' placement='right'>
               <ListItem disablePadding onClick={closeSidebar}>
                 <SidebarItem
-                  href='/settings?tab=account'
+                  href='/'
                   label={showSidebar ? 'Account' : undefined}
-                  icon={<SettingsOutlinedIcon color='primary' />}
+                  icon={<LogoutIcon color='primary' />}
                 />
               </ListItem>
             </Tooltip>

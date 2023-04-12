@@ -32,7 +32,7 @@ const projectController = {
 
       const project = ProjectModel.createProject(title, description);
 
-      res.status(201).json({ status: 'Project Created!' });
+      res.status(201).json({ status: 'Project Created!', project });
     } catch (err) {
       console.log('createProject query error: ', err);
       res.status(500).json({ msg: 'Unable to create project' });

@@ -10,8 +10,9 @@ function jwtGenerator(user_id) {
     const payload = {
         user: user_id
     };
-    return jsonwebtoken_1.default.sign(payload, process.env.JWT_SECRET
-    // { expiresIn: "1hr" }
-    );
+    const secret = process.env.JWT_SECRET;
+    console.log('sectet generated!', secret);
+    if (secret)
+        return jsonwebtoken_1.default.sign(payload, secret);
 }
 exports.default = jwtGenerator;
