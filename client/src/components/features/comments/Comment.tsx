@@ -1,7 +1,7 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Stack } from '@mui/material';
 import useCurrentUser from '@/hooks/useCurrentUser';
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
@@ -43,10 +43,10 @@ const Comment = ({
   return (
     <Box sx={{ marginTop: '1rem', maxHeight: '100%', overflowY: 'auto' }}>
       {comments &&
-        comments.map((comment: any) => (
+        comments.map((comment: CommentType) => (
           <Card key={comment.id} sx={{ marginTop: '1rem' }}>
             <CardContent>
-              <Typography variant='body2' gutterBottom>
+              <Typography variant='body2' className='text-lime-400'>
                 {comment.content}
               </Typography>
               <Box
@@ -57,15 +57,19 @@ const Comment = ({
                   marginTop: '0.5rem'
                 }}
               >
-                <Typography variant='caption'>
+                <Typography variant='caption' className='text-amber-200'>
                   {comment.author.name} | {formatDate(comment.createdAt)}
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <IconButton
+                    className='hover:text-blue-400'
                     aria-label='upvote'
                     onClick={() => {
                       // handle upvote logic here
                     }}
+                    // sx={{
+                    //   color: comment.author.id === userId ? 'skyblue' : null
+                    // }}
                   >
                     <ThumbUpAltIcon />
                   </IconButton>
@@ -73,6 +77,20 @@ const Comment = ({
                     {comment.upvoteCount} upvotes
                   </Typography>
                 </Box>
+                <Stack direction='row' spacing={2}>
+                  <Typography
+                    variant='subtitle2'
+                    className='hover:cursor-pointer hover:text-blue-400'
+                  >
+                    Edit
+                  </Typography>
+                  <Typography
+                    variant='subtitle2'
+                    className='hover:cursor-pointer hover:text-blue-400'
+                  >
+                    Delete
+                  </Typography>
+                </Stack>
               </Box>
             </CardContent>
           </Card>

@@ -12,6 +12,6 @@ router
 router.route('/:projectId').get(ticketController.getProjectTickets)
 
 router
-  .route('/:ticketId/:userId').post(ticketController.addComment)
+  .route('/:ticketId/:userId').post(ticketController.addComment).delete(ticketController.deleteComment)
 
 export default router;
