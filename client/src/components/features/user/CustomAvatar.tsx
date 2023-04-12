@@ -22,20 +22,23 @@ function stringToColor(string: string) {
   return color;
 }
 
-function stringAvatar(name: string) {
+function stringAvatar(name: string, sxProp: object = {}) {
   return {
     sx: {
       bgcolor: stringToColor(name),
-      fontSize: 40
+      fontSize: 40,
+      width: '96px',
+      height: '96px',
+      ...sxProp
     },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
   };
 }
 
-export default function CustomAvatar(props: any) {
+export default function CustomAvatar(props: { name: string; sxProp?: object }) {
   return (
     <Stack direction='row' spacing={2} className='mb-4 '>
-      <Avatar className='w-24 h-24' {...stringAvatar(props.name)} />
+      <Avatar {...stringAvatar(props.name, props.sxProp)} />
     </Stack>
   );
 }

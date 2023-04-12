@@ -21,6 +21,7 @@ import {
   useRoleUpdateUser
 } from '@/hooks/user.hook';
 import { UpdateRoleUserPayloadType } from '@/hooks/user.hook';
+import CustomAvatar from './CustomAvatar';
 
 export default function UsersTable() {
   const { data: usersData, isSuccess } = useGetAllUsers();
@@ -74,7 +75,24 @@ export default function UsersTable() {
     setRowModesModel(newRowModesModel);
   };
 
+  const avatarColumn: GridColDef = {
+    field: 'avatar',
+    headerName: 'Avatar',
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <Box className='mt-4'>
+          <CustomAvatar
+            sxProp={{ fontSize: 15, width: '40px', height: '40px' }}
+            name={params.row.name}
+          />
+        </Box>
+      );
+    }
+  };
+
   const adminColumns: GridColDef[] = [
+    avatarColumn,
     { field: 'name', headerName: 'Name', flex: 2 },
     { field: 'email', headerName: 'Email', flex: 2 },
     {
@@ -136,6 +154,7 @@ export default function UsersTable() {
   ];
 
   const userColumns: GridColDef[] = [
+    avatarColumn,
     { field: 'name', headerName: 'Name', flex: 2 },
     { field: 'email', headerName: 'Email', flex: 2 },
     {

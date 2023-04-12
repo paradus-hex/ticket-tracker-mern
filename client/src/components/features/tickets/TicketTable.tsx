@@ -186,7 +186,7 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
         </Box>
         <Box
           sx={{
-            height: 500,
+            height: 750,
             width: '100%',
             '& .actions': {
               color: 'text.secondary'
