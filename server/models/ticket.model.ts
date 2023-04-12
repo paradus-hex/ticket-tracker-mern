@@ -14,7 +14,21 @@ const TicketModel = {
           select: {
             user: true,
           },
-        },
+        }, comment: {
+          select: {
+            author: {
+              select: {
+                id: true,
+                name: true
+              }
+            },
+            content: true,
+            upvoteCount: true,
+            id: true,
+            createdAt: true,
+            ticketId: true
+          }
+        }
       },
     });
 
