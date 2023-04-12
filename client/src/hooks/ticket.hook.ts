@@ -123,11 +123,7 @@ export const useUpdateTicket = () => {
 };
 
 const getProjectTickets = (projectId: string) => {
-  return axios.get(`http://localhost:8000/api/v1/ticket/`, {
-    params: {
-      projectId
-    }
-  });
+  return axios.get(`http://localhost:8000/api/v1/ticket/project/${projectId}`);
 };
 
 export const useGetProjectTickets = (projectID: string) => {

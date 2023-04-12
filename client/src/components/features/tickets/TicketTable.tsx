@@ -34,15 +34,14 @@ export default function TicketsTable({ projectId }: { projectId: string }) {
   const { mutateAsync: deleteTicket } = useDeleteTicket(projectId);
   const { data: userSession } = useCurrentUser();
 
-  const [rows, setRows] = React.useState(TicketsData?.data ?? []);
+  const [rows, setRows] = React.useState(TicketsData?.data.tickets ?? []);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
 
   React.useEffect(() => {
-    if (isSuccess) setRows(TicketsData?.data ?? []);
-    console.log(TicketsData?.data);
-  }, [isSuccess, TicketsData?.data]);
+    if (isSuccess) setRows(TicketsData?.data.tickets ?? []);
+  }, [isSuccess, TicketsData?.data.tickets]);
 
   const handleEditClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });

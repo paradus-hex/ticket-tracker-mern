@@ -26,9 +26,10 @@ const ticketController = {
   getProjectTickets: async (req: Request, res: Response) => {
     try {
       const { projectId } = req.params;
+      console.log('Hi MAA', projectId)
       const ticket = await TicketModel.getProjectTickets(projectId);
 
-      res.status(200).json({ ticket });
+      res.status(200).json(ticket);
     } catch (err) {
       console.log('getProjectId query error: ', err);
       res.status(500).json({ msg: 'Unable to get ticket from database' });
