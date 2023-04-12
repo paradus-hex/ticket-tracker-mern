@@ -7,7 +7,6 @@ function jwtGenerator(user_id: string) {
     user: user_id
   };
   const secret = process.env.JWT_SECRET
-  console.log('sectet generated!', secret)
   if (secret)
     return jwt.sign(
       payload,
