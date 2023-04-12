@@ -96,8 +96,8 @@ const ticketController = {
   unAssignUser: async (req: Request, res: Response) => {
     try {
       const { userId, ticketId } = req.body
-      const ticket = await TicketModel.unAssignUser(ticketId, userId);
-      res.status(200).json({ ticket });
+      await TicketModel.unAssignUser(ticketId, userId);
+      res.status(200).send("User has been unassigned!");
     } catch (err) {
       console.log('Unassign Error: ', err);
       res.status(500).json({ msg: 'Unable to get ticket from database' });
