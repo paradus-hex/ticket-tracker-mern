@@ -118,8 +118,17 @@ const ticketController = {
       const comments = await TicketModel.deleteComment(id);
       res.status(200).json({ comments });
     } catch (err) {
-      console.log('Add Comment: ', err);
-      res.status(500).json({ msg: 'Unable to add comment' });
+      console.log('Delete Comment: ', err);
+      res.status(500).json({ msg: 'Unable to delete comment' });
+    }
+  }, editComment: async (req: Request, res: Response) => {
+    try {
+      const { id, content } = req.body
+      const comments = await TicketModel.editComment(id, content);
+      res.status(200).json({ comments });
+    } catch (err) {
+      console.log('Edit Comment: ', err);
+      res.status(500).json({ msg: 'Unable to edit comment' });
     }
   },
 

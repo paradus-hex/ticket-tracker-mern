@@ -7,7 +7,11 @@ import React, { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { CommentType } from '../tickets/Ticket';
-import { useAddComment, useDeleteComment } from '@/hooks/ticket.hook';
+import {
+  useAddComment,
+  useDeleteComment,
+  useEditComment
+} from '@/hooks/ticket.hook';
 import ticketId from '@/pages/projects/[projectId]';
 
 const Comment = ({
@@ -22,6 +26,7 @@ const Comment = ({
   const [newComment, setNewComment] = React.useState('');
   const { mutateAsync } = useAddComment(ticketId);
   const { mutateAsync: deleteComment } = useDeleteComment(ticketId);
+  const { mutateAsync: editComment } = useEditComment(ticketId);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editedComment, setEditedComment] = useState<string>('');
   const addComment = () => {
@@ -36,6 +41,15 @@ const Comment = ({
     // Update the comment with the editedComment value
     // You can use the existing useUpdateComment hook or create a new one for updating comments
     // After updating, reset the editing mode
+    if (editedComment && editingCommentId) {
+      editComment({
+        ticketId,
+        userId,
+        id: editingCommentId,
+        content: editedComment
+      });
+    }
+    console.log({ id: editingCommentId, content: editedComment });
     setEditingCommentId(null);
     setEditedComment('');
   };

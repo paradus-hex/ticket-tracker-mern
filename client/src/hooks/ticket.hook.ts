@@ -195,3 +195,21 @@ export const useDeleteComment = (ticketId: string) => {
     }
   });
 };
+
+const editComment = ({ ticketId, userId, id, content }: { ticketId: string, userId: string, id: string, content: string }) => {
+  return axios.put(`http://localhost:8000/api/v1/ticket/${ticketId}/${userId}`,
+    { id, content }
+  )
+}
+
+export const useEditComment = (ticketId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation(editComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['get-current-ticket', ticketId]);
+    },
+    onError: (err: any) => {
+      console.log(err.response.data);
+    }
+  });
+};

@@ -153,6 +153,14 @@ const TicketModel = {
       where: { id }
     })
 
+  }, editComment: async (id: string, content: string) => {
+    return await prisma.comment.update({
+      where: { id },
+      data: {
+        content
+      }
+    })
+
   }
 };
 
