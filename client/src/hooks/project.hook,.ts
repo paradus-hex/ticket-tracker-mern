@@ -15,7 +15,7 @@ export interface UpdateProjectPayloadType {
 
 const createProject = (createProjectPayload: CreateProjectPayloadType) => {
   return axios.post(
-    `http://localhost:8000/api/v1/project`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/project`,
     createProjectPayload,
     {
       headers: {
@@ -40,7 +40,7 @@ export const useCreateProject = () => {
 
 const updateProject = ({ id, title, description }: UpdateProjectPayloadType) => {
   return axios.put(
-    `http://localhost:8000/api/v1/project/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/project/${id}`,
     {
       title,
       description
@@ -66,7 +66,7 @@ export const useUpdateProject = () => {
 };
 
 const getAllProjects = () => {
-  return axios.get('http://localhost:8000/api/v1/project');
+  return axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/project`);
 };
 
 export const useGetAllProjects = () => {
@@ -78,7 +78,7 @@ export const useGetAllProjects = () => {
 };
 
 const deleteProject = (ProjectID: string) => {
-  return axios.delete(`http://localhost:8000/api/v1/project/${ProjectID}`, {
+  return axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/project/${ProjectID}`, {
     headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
     }

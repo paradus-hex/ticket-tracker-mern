@@ -18,7 +18,7 @@ const createTicket = (createTicketPayload: {
   projectId: string
 }) => {
   return axios.post(
-    `http://localhost:8000/api/v1/ticket/`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/`,
     createTicketPayload, {
     headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
@@ -40,7 +40,7 @@ export const useCreateTicket = (projectID: string) => {
 };
 
 const deleteTicket = ({ projectId, ticketId }: { projectId: string, ticketId: string }) => {
-  return axios.delete(`http://localhost:8000/api/v1/ticket/${projectId}`, {
+  return axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${projectId}`, {
     data: { ticketId }, headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
     }
@@ -64,7 +64,7 @@ export const useDeleteTicket = (projectID: string) => {
 
 
 const getTicket = (ticketID: string) => {
-  return axios.get(`http://localhost:8000/api/v1/ticket/${ticketID}`);
+  return axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${ticketID}`);
 };
 
 export const useGetTicket = (ticketID: string) => {
@@ -76,7 +76,7 @@ export const useGetTicket = (ticketID: string) => {
 };
 
 const assignUsers = ({ ticketId, userIds }: { ticketId: string, userIds: string[] }) => {
-  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}`, {
+  return axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${ticketId}`, {
     userIds
   }, {
     headers: {
@@ -107,7 +107,7 @@ const updateTicket = ({
   category
 }: UpdateTicketPayloadType) => {
   return axios.put(
-    `http://localhost:8000/api/v1/ticket/`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/`,
     {
       id,
       title,
@@ -135,7 +135,7 @@ export const useUpdateTicket = () => {
 };
 
 const getProjectTickets = (projectId: string) => {
-  return axios.get(`http://localhost:8000/api/v1/ticket/project/${projectId}`);
+  return axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/project/${projectId}`);
 };
 
 export const useGetProjectTickets = (projectID: string) => {
@@ -152,7 +152,7 @@ export const useGetProjectTickets = (projectID: string) => {
 
 
 const unAssignUser = ({ userId, ticketId }: { userId: string, ticketId: string }) => {
-  return axios.delete(`http://localhost:8000/api/v1/ticket`, {
+  return axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket`, {
     data: { ticketId, userId }, headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
     }
@@ -173,7 +173,7 @@ export const useUnAssignUser = (ticketId: string) => {
 
 
 const addComment = ({ ticketId, userId, content }: { ticketId: string, userId: string, content: string }) => {
-  return axios.post(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`, {
+  return axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${ticketId}/comment/${userId}`, {
     content
   }, {
     headers: {
@@ -195,7 +195,7 @@ export const useAddComment = (ticketId: string) => {
 };
 
 const deleteComment = ({ ticketId, userId, id }: { ticketId: string, userId: string, id: string }) => {
-  return axios.delete(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`, {
+  return axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${ticketId}/comment/${userId}`, {
     data: { id }, headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
     }
@@ -215,7 +215,7 @@ export const useDeleteComment = (ticketId: string) => {
 };
 
 const editComment = ({ ticketId, userId, id, content }: { ticketId: string, userId: string, id: string, content: string }) => {
-  return axios.put(`http://localhost:8000/api/v1/ticket/${ticketId}/comment/${userId}`,
+  return axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/ticket/${ticketId}/comment/${userId}`,
     { id, content }, {
     headers: {
       token: localStorage.getItem(AuthenticationTokenKey)

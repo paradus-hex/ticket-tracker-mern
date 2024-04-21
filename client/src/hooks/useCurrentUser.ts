@@ -34,7 +34,7 @@ export default function useCurrentUser() {
         throw new Error('User ID not found');
       }
 
-      const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/${userId}`);
       return res.data;
     },
     {

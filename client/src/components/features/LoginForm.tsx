@@ -42,6 +42,7 @@ export default function LoginForm() {
       password: data.get('password') as string
     };
     loginUser(loginUserPayload);
+    console.log(process.env.NEXT_PUBLIC_SERVER_URL)
   };
 
   return (

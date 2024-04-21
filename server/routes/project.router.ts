@@ -10,7 +10,7 @@ router
   .get(projectController.getAll)
   .post(authorization, projectController.createProject);
 
-// http://localhost:8000/api/v1/projects/:projectId
+// ${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/projects/:projectId
 router
   .route('/:projectId')
   .get(projectController.getById)

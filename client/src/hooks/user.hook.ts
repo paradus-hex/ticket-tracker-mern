@@ -11,7 +11,7 @@ export interface UpdateRoleUserPayloadType {
 const addNewUser = (registerPayload: {
   name: string, email: string, password: string
 }) => {
-  return axios.post('http://localhost:8000/api/v1/user', registerPayload);
+  return axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user`, registerPayload);
 };
 
 export const useRegisterUser = (onSuccess: any) => {
@@ -28,7 +28,7 @@ const loginUser = (loginPayload: {
   email: string, password: string
 }) => {
   console.log('here');
-  return axios.post('http://localhost:8000/api/v1/user/login', loginPayload);
+  return axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/login`, loginPayload);
 };
 
 export const useLoginUser = (onSuccess: any, onError: any) => {
@@ -39,7 +39,7 @@ export const useLoginUser = (onSuccess: any, onError: any) => {
 };
 
 const getAllUsers = () => {
-  return axios.get('http://localhost:8000/api/v1/user');
+  return axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user`);
 };
 
 export const useGetAllUsers = () => {
@@ -52,7 +52,7 @@ export const useGetAllUsers = () => {
 
 export const roleUpdateUser = ({ id, role }: UpdateRoleUserPayloadType) => {
   return axios.put(
-    `http://localhost:8000/api/v1/user/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/${id}`,
     {
       role
     },
@@ -77,7 +77,7 @@ export const useRoleUpdateUser = () => {
 };
 
 const deleteUser = (userID: string) => {
-  return axios.delete(`http://localhost:8000/api/v1/user/${userID}`, {
+  return axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/${userID}`, {
     headers: {
       token: localStorage.getItem(AuthenticationTokenKey)
     }
