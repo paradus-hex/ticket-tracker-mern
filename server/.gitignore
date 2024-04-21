@@ -5,6 +5,9 @@ node_modules
 /.pnp
 .pnp.js
 
+# compiled output
+dist/
+**/dist/**/*
 server/dist/**/*
 
 # testing
