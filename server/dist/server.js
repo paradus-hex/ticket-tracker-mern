@@ -19,7 +19,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const index_js_1 = __importDefault(require("./routes/index.js"));
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://ticket-tracker-mern.vercel.app'],
+    origin: '*',
     credentials: true,
     optionSuccessStatus: 200
 };
