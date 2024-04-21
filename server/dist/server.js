@@ -20,7 +20,7 @@ const express_1 = __importDefault(require("express"));
 const index_js_1 = __importDefault(require("./routes/index.js"));
 const corsOptions = {
     origin: '*',
-    credentials: true,
+    credentials: false,
     optionSuccessStatus: 200
 };
 dotenv_1.default.config();
