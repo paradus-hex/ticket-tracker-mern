@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import RootRouter from './routes/index.js';
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://ticket-tracker-mern.vercel.app'],
+  origin: '*',
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200
 };
