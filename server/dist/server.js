@@ -19,17 +19,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const index_js_1 = __importDefault(require("./routes/index.js"));
 const corsOptions = {
-    origin: function (origin, callback) {
-        const whitelist = ['https://ticket-tracker-mern.vercel.app', 'http://localhost:3000'];
-        if (whitelist.indexOf(origin) !== -1 || !origin) {
-            callback(null, true); // Allow specific origins
-        }
-        else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: '*',
     credentials: true,
-    optionSuccessStatus: 200
+    optionSuccessStatus: 200,
 };
 dotenv_1.default.config();
 const app = (0, express_1.default)();
